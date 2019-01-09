@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+    <script src="js/sprite.js"></script>
+    <script src="js/TouchController.js"></script>
+    <script src="js/Battlescenes/characterdatas.js"></script>
+    <script src="js/Battlescenes/Battlescene_Audio.js"></script>
+    <script src="js/Battlescenes/Battleparty.js"></script>
+    <script src="js/Battlescenes/Battleenemy.js"></script>
+    <link rel="stylesheet" href="css/battlemap1.css" />
+
+</head>
+<body>
+  <div class="Scoreview">
+      <div id="addstetas"></div>
+            <ul class=stetaschild id=enemycount>
+              <table id="judgecount">
+                <td>
+                  <tr id="MISS"></tr>
+                  <tr id="BAD"></tr>
+                  <tr id="GOOD"></tr>
+                  <tr id="GREAT"></tr>
+                  <tr id="PARF"></tr>
+                </td>
+              </table>
+            </ul>
+            <ul class=stetaschild id=scoreview>
+                <table id="judgecount">
+                    <td>
+                      <tr id="Score"></tr>
+                      <tr id="COMB"></tr>
+                    </td>
+                  </table>
+            </ul>
+            <ul class=stetaschild id=returnbutton><a href=Mainindex.html>マイページに戻る</a></ul>
+  </div>
+  <div class="gameview">
+    <div class="audiodata" hidden>
+        <audio id="battlebgm" src="" preload="auto" controls autoplay loop></audio>
+    </div>
+    <div class="battlestageview">
+      <div id="mainview">
+        <img id ="back" src="img/battlescene/mapimgtest.jpg">
+        <div class="lernGroup">
+          <img class="lernline" src="img/battlescene/lern.jpg">
+          <img class="lernline" src="img/battlescene/lern.jpg">
+          <img class="lernline" src="img/battlescene/lern.jpg">
+          <img class="lernline" src="img/battlescene/lern.jpg">
+        </div>
+        <canvas id="maincanvas"></canvas>
+      <div id="enemyview"> 
+        <div class ="enemydamage-content" id="enemyid0"></div>
+        <div class ="enemydamage-content" id="enemyid1"></div>
+        <div class ="enemydamage-content" id="enemyid2"></div>
+        <div class ="enemydamage-content" id="enemyid3"></div>
+    </div>
+        <div id="stetasview">
+          <div id="addstetas"></div>
+            <ul class=stetaschild id=enemycount>
+              <table id="judgecount">
+                <td>
+                  <tr id="MISS"></tr>
+                  <tr id="BAD"></tr>
+                  <tr id="GOOD"></tr>
+                  <tr id="GREAT"></tr>
+                  <tr id="PARF"></tr>
+                </td>
+              </table>
+            </ul>
+            <ul class=stetaschild id=scoreview>
+                <table id="judgecount">
+                    <td>
+                      <tr id="Score"></tr>
+                      <tr id="COMB"></tr>
+                    </td>
+                </table>
+            </ul>
+            <ul class=stetaschild id=returnbutton><a href=Mainindex.html>マイページに戻る</a></ul>
+        </div>
+      </div>
+
+       <!--<div id="InputMenu">
+       <canvas style="z-index:10;"id="Inputview" ></canvas>
+      </div>-->
+      <div class="inputicons">
+        <div class="partymembers-icon"  class="deth" id="member1-icon" value=0>
+          <img class="iconImg" id="membericonimg1" src="img/characters/face1.jpg">
+          <div class="back_box" id="backbox_member1"></div>
+          <div class="HP_box alive" id="HPbox_member1"></div>
+          <img class="Mainframe" id="member1" src="img/battlescene/charaframe.jpg">
+          <img class="Combframe" id="member1" src="img/battlescene/combImg.jpg">
+          <div class="member_comb" id="Comb_member1">コンボ数</div>
+          <div class="memberstetasview" id="member1_stetas">ステータスだよ</div>
+        </div>
+        <div class="partymembers-icon" id="member2-icon" value=1>
+          <img class="iconImg" id="membericonimg2" src="img/characters/face2.jpg">
+          <div class="back_box" id="backbox_member2"></div>
+          <div class="HP_box alive" id="HPbox_member2"></div>
+          <img class="Mainframe" id="member2" src="img/battlescene/charaframe.jpg">
+          <img class="Combframe" id="member2" src="img/battlescene/combImg.jpg">
+          <div class="member_comb" id="Comb_member2">コンボ数</div>
+          <div class="memberstetasview" id="member2_stetas">ステータスだよ</div>
+        </div>
+        <div class="partymembers-icon" id="member3-icon" value=2>
+          <img class="iconImg" id="membericonimg3" src="img/characters/face3.jpg">
+          <div class="back_box" id="backbox_member3"></div>
+          <div class="HP_box alive" id="HPbox_member3"></div>
+          <img class="Mainframe" id="member3" src="img/battlescene/charaframe.jpg">
+          <img class="Combframe" id="member3" src="img/battlescene/combImg.jpg">
+          <div class="member_comb" id="Comb_member3">コンボ数</div>
+          <div class="memberstetasview" id="member3_stetas">ステータスだよ</div>
+        </div>
+        <div class="partymembers-icon" id="member4-icon" value=3>
+          <img class="iconImg" id="membericonimg4" src="img/characters/face4.jpg">
+          <div class="back_box" id="backbox_member4"></div>
+          <div class="HP_box alive" id="HPbox_member4"></div>
+          <img class="Mainframe" id="member4" src="img/battlescene/charaframe.jpg">
+          <img class="Combframe" id="member4" src="img/battlescene/combImg.jpg">
+          <div class="member_comb" id="Comb_member4">コンボ数</div>
+          <div class="memberstetasview" id="member4_stetas">ステータスだよ</div>    </div>
+      </div>
+    </div>
+  </div>
+<!--jQuery-->
+  <script type="text/javascript" src="js/prag/jquery-3.3.1.js"></script>
+  <script type="text/javascript" src="js/Battlescenes/battlescenemainscript.js"></script>
+  <script src="js/Battlescenes/ScoreCol.js"></script>
+  <script src="js/Battlescenes/battlescene_maincanvas.js"></script>
+  <script src="js/Battlescenes/NotesClass.js"></script>
+
+<script>
+  const audioObj=$("#battlebgm").get(0);
+  let resdata;
+    window.onload = Startinit;
+  function Startinit(){
+    $.ajax({
+            url:'php/battlePHP/UserBattleStetasSet.php',
+            type:"post",
+            dataType:"json",
+            data:{
+              questid:1,
+            },
+            success:function(data){              
+              resdata=data;
+              const audiodata = data["audiohtml"],
+                    titledata =data["title"],
+                    notesfile=data["notesdata"],
+                    partystetas =data["partySt"],
+                    enemystetas = data["enemySt"];
+
+              $("#battlebgm").attr("src",audiodata);
+              $('#addstetas').html("<ul class=stetaschild>"+titledata+"</ul>");//タイトル表示
+              ScoreInit();
+              Partyinit(partystetas);
+              Enemyinit(enemystetas);
+              Notesinit(notesfile);
+            },
+            error:(function(XMLHttpRequest, textStatus, errorThrown) {
+              alert('error!!!');
+          　　console.log("XMLHttpRequest : " + XMLHttpRequest.status);
+          　　console.log("textStatus     : " + textStatus);
+          　　console.log("errorThrown    : " + errorThrown.message);              
+            })
+          });
+  }
+  init();
+  run();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,116 @@
+body{
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+  top:0;left:0;
+  margin: 0;padding: 0;border: 0;
+  background-color: white;
+}
+
+
+div{
+  font-family: 'ヒラギノ明朝 ProN','Hiragino Mincho ProN','American Typewriter','ＭＳ Ｐ明朝','MS PMincho',sans-serif;
+}
+#rightvire{
+  position: absolute;
+  left: 0;top:0;
+  width: 100%;
+  height: 100vh;
+}
+
+.main{
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+}
+
+.Home{
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+}
+.back{
+  z-index: 0;
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.vaner{
+    position: absolute;
+    left: 0;top: 0;
+    width: 100%;
+    height: auto;
+}
+
+.userdata{
+  position: absolute;
+  background-color: rgba(73, 43, 102, 0.356);
+  top: 0;left: 0;
+
+  width: 100%;
+  height: auto;
+}
+
+#userstatusmenu{
+  background-color: rgba(91, 121, 204, 0.356);
+  display: flex;
+  -webkit-justify-content: space-around;
+  justify-content: space-around;
+}
+
+.username,.userlank,.userexp{
+  margin: 10px;
+  font-size: 24px;
+  font-style: italic;
+}
+
+#id{
+  position: absolute;
+  width: 100%;
+  height: 50vh;
+  background-color:skyblue;
+  opacity: 0.6;
+}
+
+.topcharacter-selif{
+  position: absolute;
+  top:100px;
+  left: 250px;
+}
+
+#selif-backimage{
+  text-align: center;
+  text-align-last: center;
+  position: relative;
+  width: 100px;
+  height: 50px;
+  background-color: blanchedalmond;
+  border: 3px 0px 0px 3px solid darkblue;
+}
+/*
+.button{
+  position: absolute;
+  right: 150px;top: 100px;
+}
+.button2{
+  position: absolute;
+  right: 300px;top: 200px;
+}
+.button3{
+  position: absolute;
+  right: 150px;top: 300px;
+}
+*/
+.homechara{
+  position: absolute;
+  height: 90vh;
+  left:50px;
+  top: 50px;
+}
+.Menu{
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  width: 50%;
+}

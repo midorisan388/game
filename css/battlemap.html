@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="battlemap.css">
+</head>
+<body>
+
+  <div class="content" id="maincanvas">
+    <div class="mapimg" id="mapimgground"></div>
+    <button class="optionbutton" id="optionbutton">オプション</button>
+    <canvas class="maincanvas" id="main"></canvas>
+  </div>
+  <div class="content" id="partreader">
+    <div id="Battle-stage-content">
+      <div class="battle-stage-backgrpind"></div>
+    </div>
+    <div class="lern" id="lern"><img class="readerimg" id="readerimg" src="img/face5.jpg"></div>
+  </div>
+  <div class="content" id="inputmenu">
+
+    <div class="iconimg" id="iconimg">
+        <img class="membericon1" id="member1" src="img/face1.jpg">
+        <img class="membericon2" id="member2" src="img/face2.jpg">
+        <img class="membericon3" id="member3" src="img/face3.jpg">
+        <img class="membericon4" id="member4" src="img/face4.jpg">
+    </div>
+  </div>
+
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>
+    var
+        maincanvas = document.getElementById("maincanvas"),
+        mapground = document.getElementById("mapimgground"),
+        reader = document.getElementById("partreader"),
+        inputarea = document.getElementById("inputmenu"),
+
+        canvas_w=maincanvas.clientWidth,canvas_h=maincanvas.clientHeight,
+        lern_w=reader.clientWidth,lern_h=reader.clientWidth,
+        input_w=inputarea.clientWidth,input_h=inputarea.clientWidth;
+
+      function main() {
+          mapground.innerHTML+="<img class='mapimg' id='mapimg' src='img/mapimgtest.jpg' width="+canvas_w+" height="+canvas_h+">";
+      };
+
+  //ここから先は普通に反応します
+      $(function(){
+        $('.membericon1').on('click',function(){
+            console.log("きりかえ1");
+        });
+      });
+
+      $(function(){
+        $('.membericon2').bind('touchstart',function(){
+            $('#member2').attr('src',"img/face1.jpg");
+        });
+      });
+
+      $(function(){
+        $('.membericon3').bind('touchstart',function(){
+            console.log("きりかえ");
+        });
+      });
+
+      $(function(){
+        $('.membericon4').bind('touchstart',function(){
+            console.log("きりかえ4");
+        });
+      });
+
+      main();
+    </script>
+  </body>
+</html>

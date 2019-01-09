@@ -1,0 +1,260 @@
+body{
+  width: 100%;
+  height: 100vh;
+  left: 0;top: 0;right: 0;bottom: 0;
+  margin: auto;
+}
+
+.Combframe{  /*コンボ表示部分フレーム*/
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: auto;
+  height: auto;
+}
+
+.iconImg{ /*顔グラ*/
+  margin:0;
+  border: 1px solid black;
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.back_box{  /*HPback*/
+  position: absolute;
+  height: 28px;
+  width: 100%;
+  bottom: 0;
+}
+.HP_box{ /*HPバー*/
+  position: absolute;
+  height: 28px;
+  bottom: 0;
+}
+.member_comb{  /*コンボ数*/
+  margin: 0;padding: 0;
+  border-bottom: solid ;
+  color: white;
+  position: relative;
+  top: 15px;
+  right: 20px;
+  width: 20%;
+  height: auto;
+}
+
+.lernGroup {
+  top: 33%;
+  left: 0;
+  position: absolute;
+  display: block;
+  width: 100%;
+  height: 60%;
+}
+.lernline{
+    z-index: 15;
+    margin-top: 3px;
+
+    position: relative;
+    width: 100%;
+    height: 62px;
+    left: 0;
+    opacity: 0.7;
+}
+
+#maincanvas{
+    z-index: 20;
+    position: absolute;
+    width: 100%;
+    height: 75vh;
+}
+
+#InputMenu{
+  position: absolute;
+  border: 1px solid black;
+  width: 100%;
+  bottom: 0;
+  height: 20vh;
+}
+
+#Inputview{
+  z-index: 10;
+  position: absolute;
+  padding: 0;margin: 0;
+  width: 100%;
+  height: 20vh;
+}
+
+.inputicons{
+  display: flex;
+  justify-content: space-between;
+  position: absolute;
+  width: 100%;
+  height: 20vh;
+}
+
+.deth{
+  z-index: 20;
+  position: relative;
+  flex-grow: 1;
+}
+.partymembers-icon{
+  z-index: 20;
+  position: relative;
+  flex-grow: 1;
+  opacity: 1;
+}
+.memberstetasview{ /*HP表示*/
+  position: absolute;
+  font-size: 24px;
+  top:80px;
+  left: 50%;
+  width: auto;
+  height: auto;
+}
+.Mainframe{/*フレーム*/
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
+#enemyview{
+  position: absolute;
+  z-index: 1000;
+  top:30%;
+}
+
+.enemydamage-content{
+  position: relative;
+}
+.partymembers-icon:hover{
+  opacity: 0.8;
+}
+  @media screen and (orientation: landscape){
+  .gameview{
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    left: 0;top: 0;right: 0;bottom: 0;
+    margin: auto;
+  }
+  .battlestageview{
+    width: 100%;
+    height: 100vh;
+    left: 0;top: 0;right: 0;bottom: 0;
+    margin: auto;
+  }
+  #mainview{
+    margin: 0;padding: 0;
+    width: 100%;
+    height: 75vh;
+  }
+
+  .Scoreview{
+    
+  }
+
+  #stetasview{
+    z-index: 30;
+    background-image: url("../img/battlescene/frame3.jpg");
+    position: absolute;
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid black;
+    width: 100%;
+    max-width: 100%;
+    left: 0;top: 0;right: 0;bottom: 0;
+
+    height: 10vh;
+    max-height: 10vh;
+  }
+
+  .stetaschild{
+    top:100px;
+    flex-grow: 1;
+    font-stretch: expanded;
+    font-style: italic;
+  }
+
+  #back{
+        z-index: 10;
+        font-stretch: expanded;
+        position: absolute;
+        margin: 0;
+        width: 100%;
+        height: 100vh;
+  }
+
+
+}
+
+@media screen and (orientation: portrait){
+  .gameview {
+    position: absolute;
+    width: 100%;
+    height: 50%;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0px;
+    border: 0px;
+    padding: 0px;
+}
+  #mainview {
+    position: relative;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 50vh;
+}
+.battlestageview {
+  width: 100%;
+  height: 80%;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+}
+#back {
+  z-index: 10;
+  font-stretch: expanded;
+  position: absolute;
+  margin: 0;
+  top: 0;
+  width: 100%;
+  height: 80vh;
+}
+.inputicons {
+  display: flex;
+  justify-content: space-between;
+  position: absolute;
+  width: 100%;
+  height: auto;
+  top: 80%;
+}
+  #stetasview{
+    display: none;
+  }
+
+  .Scoreview{
+    position: absolute;
+    background-color: darkcyan;
+    top: 0;
+    width: 100%;
+  }
+  #stetasview-hidden{
+    z-index: 30;
+    position: absolute;
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid black;
+    width: 100%;
+    max-width: 100%;
+    left: 0;top: 0;right: 0;bottom: 0;
+  
+    height: 10vh;
+    max-height: 10vh;
+  }
+}
