@@ -31,7 +31,7 @@ body{
     position: absolute;
     right: 0px;
     width: 40%;
-
+    top: 60px;
     background-color:salmon;
 }
 #user-status-contents{
@@ -81,4 +81,8 @@ body{
     position: relative;
     top: -10px;
     z-index: 1000;
+}
+
+.user-main-character-img{
+    height: 100vh;
 }

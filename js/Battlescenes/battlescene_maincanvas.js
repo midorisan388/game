@@ -12,7 +12,3 @@ function Maincanvas_render(){
   Party_Draw();
   EnemyDraw();
 }
-
-function Maincanvas_update(){
-    EnemyUpdate();
-}

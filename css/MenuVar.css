@@ -1,0 +1,92 @@
+div{
+    font-family: 'ヒラギノ明朝 ProN','Hiragino Mincho ProN','American Typewriter','ＭＳ Ｐ明朝','MS PMincho',sans-serif;
+  }
+
+/*メニューバーコンテンツ*/
+.MenuVar-content{
+    z-index: 10000;
+    background-color:rgba(0,0,0,0.7);
+    position: absolute;
+    top: 0px;
+    width: 100%;
+    height: 0vh;
+    margin: 0; padding:0; border:0;
+    transition: all 1s ease;
+ }
+
+ #menuoparate-btnimg{
+     width: 50px;
+     height: 50px;
+ }
+.menuoperate{
+    position: absolute;
+    top:0;
+    right: 0px;
+    width: auto;
+}
+   /*メニューバー親オブジェクト*/
+   #Menu-links-content{
+    overflow-y:hidden;
+    overflow-x:hidden;
+
+    position: absolute;
+    justify-content: space-evenly;
+}
+
+/*メニューバー子オブジェクト*/
+.Menulink{
+    text-align: center;
+    height: auto;
+    padding: 5px;
+}
+
+.MenuLinkSpan{
+    width: 100%;
+    height: 100vh;
+    background-image: url("../img/menu/btn048_02.png");
+
+}
+
+.closemenu{
+    visibility: hidden;
+    width: 0%;
+ }
+
+@media screen and (orientation: landscape){/*横画面なら縦に広げる*/
+    /*メニューバー親オブジェクト*/
+#Menu-links-content{
+    right: 0px;
+
+    display: block;
+    width: 110px;
+    height: auto;
+}
+.MenuLinkBtn{
+    width: auto;
+}
+    .openmenu{
+       right: 0%;
+       top:60px;
+    }
+}
+
+
+@media screen and (orientation: portrait){/*縦画面なら横に広げる*/
+    /*メニューバー親オブジェクト*/
+    #Menu-links-content{
+        top:0px;
+
+        display: flex;
+        height: 60px;
+    }
+    .MenuLinkBtn{
+        flex-grow: 1;
+        width: 10vh;
+        height: 60px;
+    }
+
+    .openmenu{
+        width: 100%;
+        left:0;
+    }
+}

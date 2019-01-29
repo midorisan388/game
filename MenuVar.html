@@ -1,0 +1,56 @@
+    <div class="MenuVar-content">
+        <div class="closemenu" id="Menu-links-content" >
+           
+                <button class="MenuLinkBtn" value="Mypage">
+                    <div class="Menulink" id="mypageLink"><span class="MenuLinkSpan"><a href="http://localhost/serverside/Mypage.html">マイページ</a></span>
+                    </div>
+                </button>
+                <button class="MenuLinkBtn" value="Mypage">
+                    <div class="Menulink" id="partyLink">
+                        <span class="MenuLinkSpan">編成</span>
+                    </div>
+                </button>
+                <button class="MenuLinkBtn" value="Mypage">
+                    <div class="Menulink"　id="greadupLink">
+                        <span class="MenuLinkSpan">強化</span>
+                    </div>
+                </button>
+                <button class="MenuLinkBtn" value="Mypage">
+                    <div class="Menulink" id="questLink">
+                       <span class="MenuLinkSpan"><a href="http://localhost/serverside/BattleScene.html">クエスト</a></span>
+                  </div>
+               </button>
+                <button class="MenuLinkBtn" value="Mypage">
+                    <div class="Menulink" id="userdataLink">
+                        <span class="MenuLinkSpan"><a href="http://localhost/serverside/php/Useraccountpage.php">ユーザ</a></span>
+                    </div>
+                </button>
+                <button class="MenuLinkBtn" value="Mypage">
+                    <div class="Menulink" id="logoutLink">
+                        <span class="MenuLinkSpan"><a href="http://localhost/serverside/php/outpage.php">ログアウト</a></span>
+                    </div>
+                </button>
+            <div class="Menulink" id="menubuttonspace">
+            </div>
+        </div>
+
+        <div class="menuoperate" id="close">
+            <div class="operate-button">
+                <button onclick="MenuOpen()">
+                <img id="menuoparate-btnimg" src="http://localhost/serverside/img/menu/emo_6.png">
+                    </button>
+            </div>
+        </div>
+
+       <script type="text/javascript">
+         function MenuOpen(){
+             if( $("#Menu-links-content").hasClass("openmenu")){
+              $("#Menu-links-content").addClass("closemenu");
+              $("#Menu-links-content").removeClass("openmenu");
+             }else if( $("#Menu-links-content").hasClass("closemenu")){
+              $("#Menu-links-content").addClass("openmenu");
+              $("#Menu-links-content").removeClass("closemenu");
+             }
+         }
+       </script>
+    </div>

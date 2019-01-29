@@ -3,17 +3,17 @@
   <head>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="css/Mainindexstyle.css" />
+    <link rel="stylesheet" href="css/headermenu.css" />
     <script type="text/javascript" src="js/prag/jquery-3.3.1.js"></script>
     
     <title>メインindex</title>
   </head>
+
+  <header class="header-content">
+
+  </header>
   <body>
-    <div class="sidever">
-      <div class="sidemenu" id="Homerequest"><a href="Mainindex.html" class="inputsidemenu" id="Homerequest" type="button" name="homereq" >マイページ</a></div>
-      <div class="sidemenu" id="Battlescenerequest"><input class="inputsidemenu" id="Battlescenerequest" type="button" name="battlereq" value="クエスト"></div>
-      <div class="sidemenu" id="AccountData"><input class="inputsidemenu" id="AccountData" type="button" name="accountreq" value="プレイヤーデータ" /></div>
-      <div class="sidemenu" id="Logoutreq"><button class="inputsidemenu" id="logoutbutton" onclick="Logout()">ログアウト</button></div>
-    </div>
+  
     <div class="outputview">
       <main>
         <div class="Mainhtml">
@@ -26,6 +26,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bubbly-bg@1.0.0/dist/bubbly-bg.js"></script>
     <script type="text/javascript">
         var ip = "192.168.3.10";
+        const rootDir ="./";
 
       $(window.onload=function(){
         bubbly();
@@ -41,8 +42,21 @@
                 console.log("失敗");
             }
           });
-      });
+      //ヘッダーファイル読み込み
 
+          $.ajax({
+            url: rootDir + "HeaderMenu.html", // 読み込むHTMLファイル
+            cache: false,
+            async: false,
+            dataType: 'html',
+            success: function(data){
+             // data = data.replace(/\{\$root\}/g, rootDir);
+            $(".header-content").html(data);
+        }
+    });
+
+      });
+    
       $(function(){
         $('.sidemenu #Homerequest').click(function(){
           $.ajax({

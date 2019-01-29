@@ -64,12 +64,14 @@ session_start();
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" type="text/css" media="screen" href="css/accountpage.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="../css/accountpage.css" />
+        <link rel="stylesheet" href="../css/MenuVar.css" />
+
     </head>
     <body>
         <div class="main-contents">
         <div class="left-contents">
-            <div id="user-main-character"><img class="user-main-character-img" src="img/characters/teststand2.png"></div>
+            <div id="user-main-character"><img class="user-main-character-img" src="../img/characters/teststand2.png"></div>
         </div>
         <div class="right-contents">
             <div id="user-status-contents">
@@ -111,5 +113,8 @@ session_start();
             </div>
         </div>
         </div>
+    <div class="MenuVar-frame"></div>
+    <script type="text/javascript" src="../js/prag/jquery-3.3.1.js"></script>
+    <script type="text/javascript" src="../js/MenuVarInsert.js"></script>
     </body>
 </html>

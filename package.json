@@ -1,0 +1,27 @@
+{
+  "name": "webgame",
+  "version": "1.0.0",
+  "description": "browzergame",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/midorisan388/game.git"
+  },
+  "keywords": [
+    "game"
+  ],
+  "author": "mijinko",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/midorisan388/game/issues"
+  },
+  "homepage": "https://github.com/midorisan388/game#readme",
+  "dependencies": {
+    "ejs": "^2.6.1",
+    "express": "^4.16.4"
+  }
+}

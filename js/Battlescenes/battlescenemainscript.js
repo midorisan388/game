@@ -27,7 +27,7 @@
         Gametimer=updatecounter/fps_;
     }
 
-    function init(){
+    function init(data){
       Gametimer=Startdelay-offsetTime;
 
       canvas_w=parentdom.clientWidth;
@@ -37,11 +37,28 @@
       charasd_margine=canvas_h*0.1;
       icon_offset_x=canvas_w*0.05;
       charaicon_margine=canvas_w/4;
+
+      const audiodata = data["audiohtml"],
+      titledata =data["title"],
+      notesfile=data["notesdata"],
+      partystetas =data["partySt"],
+      enemystetas = data["enemySt"];
+
+      $("#battlebgm").attr("src",audiodata);
+      $('#addstetas').html(titledata);//タイトル表示
+      ScoreInit();
+      Partyinit(partystetas);
+      Enemyinit(enemystetas);
+      Notesinit(notesfile);
+
+      console.log(audiodata);
+      
+      var audioObj = new Audio(audiodata);
+      audioObj.play();
     }
 
     function update(){
       Timecount();
-      Maincanvas_update();
     }
 
     function render(){
@@ -51,13 +68,8 @@
     }
 
     function run() {
-        var loop = function () {
-            update();
-            render();
-
-            window.requestAnimationFrame(loop, maincanvas_);
-        }
-        window.requestAnimationFrame(loop, maincanvas_);
+      update();
+      render();
     }
 
 //トリガーイベント
@@ -72,6 +84,7 @@
          lernid:0,
       },
       success:function(data){
+        SearchNotes(0);
         StetasUpdate(0,data);
       },
       error:(
@@ -80,11 +93,12 @@
     　　console.log("XMLHttpRequest : " + XMLHttpRequest.status);
     　　console.log("textStatus     : " + textStatus);
     　　console.log("errorThrown    : " + errorThrown.message); 
-        console.log(data);
-      },function(data){        
+        
+      },function(data){  
+       
       }) 
     });
-      SearchNotes(0);
+     
   });
   $('#member2-icon').on(EVENTNAME_TOUCHSTART,function(){
     $.ajax({
@@ -97,13 +111,21 @@
          lernid:1,
       },
       success:function(data){
+        SearchNotes(1);
         StetasUpdate(1,data);
       },
-      error:function(data){
-        $('#enemyid1').html(data+"失敗");
-      }
+      error:(
+        function(XMLHttpRequest, textStatus, errorThrown) {
+        alert('error!!!');
+    　　console.log("XMLHttpRequest : " + XMLHttpRequest.status);
+    　　console.log("textStatus     : " + textStatus);
+    　　console.log("errorThrown    : " + errorThrown.message); 
+       
+      },function(data){    
+       
+      }) 
     });
-        SearchNotes(1);
+       
   });
   $('#member3-icon').on(EVENTNAME_TOUCHSTART,function(){
     $.ajax({
@@ -116,13 +138,21 @@
          lernid:2,
       },
       success:function(data){
+        SearchNotes(2);
         StetasUpdate(2,data);
       },
-      error:function(data){
-        $('#enemyid2').html(data+"失敗");
-      }
+       error:(
+        function(XMLHttpRequest, textStatus, errorThrown) {
+        alert('error!!!');
+    　　console.log("XMLHttpRequest : " + XMLHttpRequest.status);
+    　　console.log("textStatus     : " + textStatus);
+    　　console.log("errorThrown    : " + errorThrown.message); 
+       
+      },function(data){    
+       // console.log(data);    
+      }) 
     });
-        SearchNotes(2);
+       
   });
   $('#member4-icon').on(EVENTNAME_TOUCHSTART,function(){
     $.ajax({
@@ -135,13 +165,21 @@
          lernid:3,
       },
       success:function(data){
+        SearchNotes(3);
         StetasUpdate(3,data);
       },
-      error:function(data){
-        $('#enemyid3').html(data+"失敗");
-      }
+      error:(
+        function(XMLHttpRequest, textStatus, errorThrown) {
+        alert('error!!!');
+    　　console.log("XMLHttpRequest : " + XMLHttpRequest.status);
+    　　console.log("textStatus     : " + textStatus);
+    　　console.log("errorThrown    : " + errorThrown.message); 
+       
+      },function(data){    
+       // console.log(data);    
+      }) 
     });
-        SearchNotes(3);
+       
   });
 
 function StetasUpdate(id,datas){
@@ -153,11 +191,14 @@ function StetasUpdate(id,datas){
         
         notes=resdata["notesdata"];//ノーツデータ更新
         ScoreUpdate(noteshantei);
+
+      
     if(gameover === "Gameover"){
       //全滅処理
     }else{
+   
       for(var i=0;i<4;i++){
-        playerrenderStetas[i].currentHp=playerSt["member"+i]["HP"];
+        playerrenderStetas[i].currentHp=playerSt[i]["HP"];
 
         let memberhpasp = parseFloat(parseInt(playerrenderStetas[i].currentHp)/parseInt(playerrenderStetas[i].MaxHp));
         let enemyhpasp =parseFloat(parseInt(enemtSt[i]["HP"]-enemtSt[i]["damage"])/parseInt(enemtSt[i]["HP"]));
@@ -165,6 +206,6 @@ function StetasUpdate(id,datas){
         $("#HPbox_member"+(i+1)).css("width",(memberhpasp)*100 +"%");
         $("#member"+(i+1)+"_stetas").html(playerrenderStetas[i].currentHp);
       }      
-      $('#enemyid'+id).html( playerrenderStetas[id].name+"の攻撃！ =>"+resdata["damage"]+"のダメージ<br>"+enemtSt[id]["name"]+"HP:"+ (parseInt(enemtSt[id]["HP"])-parseInt(enemtSt[id]["damage"])));
+      $('#enemyid'+id).html( playerSt[id]["characterName"]+"の攻撃！ =>"+resdata["damage"]+"のダメージ<br>"+enemtSt[id]["characterName"]+"HP:"+ (parseInt(enemtSt[id]["HP"])-parseInt(enemtSt[id]["curretnDamage"])));
     }
 }

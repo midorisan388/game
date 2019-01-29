@@ -1,3 +1,7 @@
+html{
+  overflow-y:scroll; 
+}
+
 body{
   width: 100%;
   height: 100vh;
@@ -5,6 +9,9 @@ body{
   margin: auto;
 }
 
+table ,thead, tbody, td{
+  width: 100%;
+}
 .Combframe{  /*コンボ表示部分フレーム*/
   position: absolute;
   top: 0;
@@ -15,35 +22,38 @@ body{
 
 .iconImg{ /*顔グラ*/
   margin:0;
+  background-color: azure;
   border: 1px solid black;
   position: relative;
   width: 100%;
   height: 100%;
 }
 .back_box{  /*HPback*/
-  position: absolute;
+  position: relative;
+  background-color: black;
   height: 28px;
   width: 100%;
-  bottom: 0;
+  bottom: 0;top:-36px;
 }
 .HP_box{ /*HPバー*/
-  position: absolute;
+  position: relative;
+  background-color: chartreuse;
   height: 28px;
-  bottom: 0;
+  bottom: 0;top:-64px;
 }
 .member_comb{  /*コンボ数*/
   margin: 0;padding: 0;
   border-bottom: solid ;
-  color: white;
-  position: relative;
-  top: 15px;
-  right: 20px;
+  color: black;
+  position: absolute;
+  top: -0px;
+  right: 0px;
   width: 20%;
   height: auto;
 }
 
 .lernGroup {
-  top: 33%;
+  top: 35%;
   left: 0;
   position: absolute;
   display: block;
@@ -150,13 +160,24 @@ body{
     height: 75vh;
   }
 
-  .Scoreview{
-    
+  .score-parent{/* 親*/
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
   }
 
+  .stetaschild{
+    justify-content: space-evenly;
+  }
+  .scorebord{/*子要素*/
+    flex-grow: 1;
+    padding: 3px 3px;
+    text-align: center;
+    border-bottom: 1px solid sandybrown;
+    width: 100%;
+  }
   #stetasview{
     z-index: 30;
-    background-image: url("../img/battlescene/frame3.jpg");
     position: absolute;
     display: flex;
     justify-content: space-between;
@@ -165,8 +186,8 @@ body{
     max-width: 100%;
     left: 0;top: 0;right: 0;bottom: 0;
 
-    height: 10vh;
-    max-height: 10vh;
+    height: auto;
+    max-height: 12vh;
   }
 
   .stetaschild{
@@ -188,7 +209,7 @@ body{
 
 }
 
-@media screen and (orientation: portrait){
+@media screen and (orientation: portrait){/*横画面*/
   .gameview {
     position: absolute;
     width: 100%;
@@ -234,16 +255,23 @@ body{
   height: auto;
   top: 80%;
 }
-  #stetasview{
-    display: none;
-  }
+  
+#stetasview{
+  z-index: 30;
+  background-color: chartreuse;
+  position: absolute;
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid black;
+  width: 100%;
+  max-width: 100%;
+  left: 0;top: 0;right: 0;bottom: 0;
 
-  .Scoreview{
-    position: absolute;
-    background-color: darkcyan;
-    top: 0;
-    width: 100%;
-  }
+  height: 50vh;
+  max-height: 50vh;
+}
+
+
   #stetasview-hidden{
     z-index: 30;
     position: absolute;

@@ -1,0 +1,10 @@
+//ID,スキル名,スキルクラス名,引数データ1,引数データ2
+1,ツインクロー,CountAttack,5
+2,ヒール,SimpleHeal,500
+3,トリプル,CountAttack,3
+4,ファイア,StandardDamage,5.5
+5,ポイズン,SetStetas,3
+6,デュオ・メルン,CountAttack,2
+7,シン・レイ,StandardDamage,10
+8,アセンブル・シールド,SetStetas,2
+9,アテンション,SetStetas,1,2

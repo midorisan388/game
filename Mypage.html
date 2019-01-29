@@ -1,0 +1,73 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+ <meta charset="utf-8" />
+ <link rel="stylesheet" href="./css/Home.css" type="text/css" />
+ <link rel="stylesheet" href="./css/MenuVar.css" />
+
+ <script src="./js/HomeSprite.js"></script>
+ <script type="text/javascript" src="./js/prag/jquery-3.3.1.js"></script>
+ <title>HOME</title>
+
+</head>
+
+<!--ホーム画面-->
+<body>
+  <div id="stetasview">
+    <div class="main">
+     <div id="Home" class="Home">
+       <img draggable="false" id="back" class="back" src="img/menu/hometest2.jpg" alt="背景" />
+       <img draggable="false" id="homechara" class="homechara" src="" alt="キャラ" />
+       <div class="HomeMenu-Linkscontent">
+           <div class="Menu-content">
+               <div class="HomeMenu-btn-content">
+                    <div class="MenuLink-div" id="PartyBtn">編成</div>
+               </div>
+               <div class="HomeMenu-btn-content">
+                    <div class="MenuLink-div"id="QuestBtn"><a href="http://localhost/serverside/BattleScene.html">クエスト</a></div>
+               </div>
+               <div class="HomeMenu-btn-content">
+                    <div class="MenuLink-div"id="UpgreadBtn">強化</div>
+               </div>
+               <div class="HomeMenu-btn-content">
+                    <div class="MenuLink-div"id="UserBtn"><a href="php/Useraccountpage.php">ユーザ</a></div>
+               </div>
+           </div>
+        </div>
+       <div id="userdata" class="userdata">
+       <div id="userstatusmenu"> 
+         <div class="username" id="username"></div>
+         <div class="userlank" id="userrank"></div>
+         <div class="userexp" id="userexp"></div>
+      </div>
+       </div>
+     </div>
+   </div>
+ </div>
+ <div class="MenuVar-frame"></div>
+
+<script type="text/javascript" src="js/MenuVarInsert.js"></script>
+<script type="text/javascript">
+
+    $.ajax({
+        url:"php/Mypage.php",
+        cache:false,
+        async:false,
+        dataType:"json",
+        success:function(data){            
+            $("#username").html(data["userdata"]["username"]);
+            $("#userrank").html("Rank: "+data["userdata"]["userrank"]);
+            $("#userexp").html("Exp: "+ data["userdata"]["userexp"] +"/"+ data["userdata"]["usernextexp"]);
+            $("#homechara").attr("src",data["charaurl"]);
+        },
+        error:(function(XMLHttpRequest, textStatus, errorThrown) {
+              alert('error!!!');
+          　　console.log("XMLHttpRequest : " + XMLHttpRequest.status);
+          　　console.log("textStatus     : " + textStatus);
+          　　console.log("errorThrown    : " + errorThrown.message);              
+        })
+    });
+</script>
+</body>
+</html>

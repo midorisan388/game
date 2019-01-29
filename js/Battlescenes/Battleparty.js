@@ -9,32 +9,32 @@ playerrenderStetas=[
     name:"",
     currentHp:0,
     maxHp:1000,
-    img: "img/enemy/enemystand_4.png",
-    sprite:new CharacterData("img/enemy/enemystand_4.png")
+    img: "img/characters/character1/1051010301.png",
+    sprite:new CharacterData("img/characters/character1/1051010301.png")
   },
   {
     x:0,y:45+1*20,
       name:"",
       currentHp:0,
       maxHp:1000,
-      img: "img/enemy/enemystand_4.png",
-      sprite:new CharacterData("img/enemy/enemystand_4.png")
+      img: "img/characters/character2/1036010301.png",
+      sprite:new CharacterData("img/characters/character2/1036010301.png")
   },
   {
     x:0,y:45+2*20,
       name:"",
       currentHp:0,
       maxHp:1000,
-      img: "img/enemy/enemystand_4.png",
-      sprite:new CharacterData("img/enemy/enemystand_4.png")
+      img: "img/characters/character3/1104010301.png",
+      sprite:new CharacterData("img/characters/character3/1104010301.png")
   },
   {
     x:0,y:45+3*20,
     name:"",
     currentHp:0,
     maxHp:1000,
-    img: "img/enemy/enemystand_4.png",
-    sprite:new CharacterData("img/enemy/enemystand_4.png")
+    img: "img/characters/character4/1464010301.png",
+      sprite:new CharacterData("img/characters/character4/1464010301.png")
   }
 ];
 
@@ -42,10 +42,10 @@ function Partyinit(data){
   const partySt = data;
 
   for(i=0;i<4;i++){
-    const memberhpasp = parseFloat(parseInt(partySt["member"+i]["HP"]-partySt["member"+i]["damage"])/parseInt(partySt["member"+i]["HP"]));
+    const memberhpasp = parseFloat(parseInt(partySt[i]["HP"]-partySt[i]["currentDamage"])/parseInt(partySt[i]["HP"]));
 
-    playerrenderStetas[i].currentHp=playerrenderStetas[i].MaxHp=partySt["member"+i]["HP"];
-    playerrenderStetas[i].name=partySt["member"+i]["name"];
+    playerrenderStetas[i].currentHp=playerrenderStetas[i].MaxHp=partySt[i]["HP"];
+    playerrenderStetas[i].name=partySt[i]["name"];
 
     $("#HPbox_member"+(i+1)).css("width",(memberhpasp)*100 +"%");
     $("#member"+(i+1)+"_stetas").html(playerrenderStetas[i].currentHp);

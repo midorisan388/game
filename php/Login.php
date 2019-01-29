@@ -8,7 +8,7 @@ session_start();
 
   function PlayerLoginSetting($id_s){
     $_SESSION['userid']=$id_s;
-    header( "Location: ../Mainindex.html" );
+    header( "Location: ../Mypage.html" );
     exit();
   }
 
