@@ -4,9 +4,12 @@ error_reporting(E_ALL);
 ini_set('error_log', '/tmp/php.log');
 ini_set('log_errors', true);
 ini_set('display_errors',"On");
-
     
 require_once("./battleStetasSetUp.php");
+$questid = (int)$_POST["questid"];
+$_SESSION["questId"] = $questid;
+
+require_once("./questDataTest.php");//クエストデータのセットアップ
 
     //更新中のセッションが無ければ初期値を設定
   /*  if(!isset($_SESSION["judgedatas"])) $_SESSION["judgedatas"]=array("MISS"=>0,"BAD"=>0,"GOOD"=>0,"GREAT"=>0,"PARF"=>0,"COMB"=>0);//判定データ初期化
@@ -20,13 +23,13 @@ require_once("./battleStetasSetUp.php");
     $_SESSION["COMB"]=0;//コンボデータ初期化
 
     try{
-           //SQL接続-----------------------------------------------------------------
+
+           /*/SQL接続-----------------------------------------------------------------
            require_once("../../datas/gamesystemlistsql.php");
            $sql_list=new PDO("mysql:host=$SERV;dbname=$DBNAME",$USER,$PASSWORD);
            $sql_list->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY,true);
            $sql_list-> setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
            //----------------------------------------------------------------------
-           //$questid = (int)$_POST["questid"];
 
            //クエスト情報----------------------------------------------------------------------------
            $questid=1;
@@ -36,21 +39,25 @@ require_once("./battleStetasSetUp.php");
            $musicId = (int)$questdata[2];
            $musicdata = $sql_list->query("SELECT * FROM  musicfiletable WHERE musicID = $musicId");
            $musicdata =$musicdata -> fetch();
+           */
             //ノーツデータ----------------------------------------------------------------------------
-                $notesUrl="../../datas/Notesfile/".$musicdata[2];
+                //$notesUrl="../../datas/Notesfile/".$musicdata[2];
+                //QuestDataSet($questid);//クエストデータ、音楽データ、アイテムデータの取得
+
+                $notesUrl = $musicData["notesFilePath"];//ノーツファイルパス
                 if(file_exists($notesUrl)){
-                $notesjson = file_get_contents($notesUrl);
-                $notesjson = mb_convert_encoding($notesjson, 'UTF8', 'ASCII,JIS,UTF-8,EUC-JP,SJIS-WIN');
+                  $notesjson = file_get_contents($notesUrl);
+                  $notesjson = mb_convert_encoding($notesjson, 'UTF8', 'ASCII,JIS,UTF-8,EUC-JP,SJIS-WIN');
                 }else{
                     $notesjson="ファイルがありません";
                 }
-            if(!isset($_SESSION["notesdata"])){
+                if(!isset($_SESSION["notesdata"])){
 
-                $_SESSION["notesdata"]=$notesjson;
-            }
+                    $_SESSION["notesdata"]=$notesjson;
+                }
             //オーディオデータ------------------------------------------------------------------------
-            $audiotext =  $musicdata[3];
-            $titletext=$questdata[1];
+            $audiotext = $musicData["audioFilePath"]; //$musicdata[3];　//audioファイルのパス
+            $titletext= $questData["クエスト名"];//$questdata[1]; //クエスト名文字列
             /*--------------------------------------------------------------------------------------*/
             
             $resdata = array(

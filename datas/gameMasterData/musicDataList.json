@@ -1,0 +1,37 @@
+{
+    "0":{
+        "ID":0,
+        "音楽タイトル":"前奏",
+        "audioFilePath":"audio/bgm/battle0.ogg",
+        "notesFilePath":"../../datas/Notesfile/Notestimingdatatest.json",
+        "itemGachaID":[1,2,3]
+    },
+    "1":{
+        "ID":1,
+        "音楽タイトル":"逃走劇",
+        "audioFilePath":"audio/bgm/battle1.ogg",
+        "notesFilePath":"../../datas/Notesfile/Notestimingdatatest.json",
+        "itemGachaID":[4,5,6]
+    },
+    "2":{
+        "ID":2,
+        "音楽タイトル":"戦火",
+        "audioFilePath":"audio/bgm/battle2.ogg",
+        "notesFilePath":"../../datas/Notesfile/Notestimingdatatest.json",
+        "itemGachaID":[2,4,6]
+    },
+    "3":{
+        "ID":3,
+        "音楽タイトル":"祈願",
+        "audioFilePath":"audio/bgm/battle3.ogg",
+        "notesFilePath":"../../datas/Notesfile/Notestimingdatatest.json",
+        "itemGachaID":[4,1,2]
+    },
+    "4":{
+        "ID":4,
+        "音楽タイトル":"悲哀",
+        "audioFilePath":"audio/bgm/boss0.ogg",
+        "notesFilePath":"../../datas/Notesfile/Notestimingdatatest.json",
+        "itemGachaID":[0,1,2]
+    }
+}

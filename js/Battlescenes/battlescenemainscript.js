@@ -10,7 +10,8 @@
 
 
       Startdelay=0,Gametimer=0,offsetTime=0,
-      updatecounter=0;
+      updatecounter=0,
+      audioObj;//BGM再生用オブジェクト
 
     const
       actionfile ='php/battlePHP/ActionSkillList.php',
@@ -22,12 +23,13 @@
       maincanvas_=document.getElementById("maincanvas"),//描画用
       ctx = maincanvas_.getContext('2d');
 
+
     function Timecount(){
         updatecounter++;
         Gametimer=updatecounter/fps_;
     }
 
-    function init(data){
+    function Init(data){
       Gametimer=Startdelay-offsetTime;
 
       canvas_w=parentdom.clientWidth;
@@ -50,14 +52,16 @@
       Partyinit(partystetas);
       Enemyinit(enemystetas);
       Notesinit(notesfile);
-
-      console.log(audiodata);
       
-      var audioObj = new Audio(audiodata);
-      audioObj.play();
+       audioObj = new Audio(audiodata);//音楽データセット
+    }
+
+    function touchStartPlay(audioObj){
+      audioObj.play();//音楽再生開始
     }
 
     function update(){
+    
       Timecount();
     }
 
@@ -68,8 +72,17 @@
     }
 
     function run() {
-      update();
-      render();
+
+      if(GameStage === "Play"){
+        if(!checkMedia()){
+          GameStage="Pause";
+          audioObj.pause();
+        }
+        else {
+          update();
+          render();
+        }
+      }
     }
 
 //トリガーイベント
@@ -84,7 +97,7 @@
          lernid:0,
       },
       success:function(data){
-        SearchNotes(0);
+        AudioTest(0);
         StetasUpdate(0,data);
       },
       error:(
@@ -111,7 +124,7 @@
          lernid:1,
       },
       success:function(data){
-        SearchNotes(1);
+        AudioTest(1);
         StetasUpdate(1,data);
       },
       error:(
@@ -138,7 +151,7 @@
          lernid:2,
       },
       success:function(data){
-        SearchNotes(2);
+        AudioTest(2);
         StetasUpdate(2,data);
       },
        error:(
@@ -165,7 +178,7 @@
          lernid:3,
       },
       success:function(data){
-        SearchNotes(3);
+        AudioTest(3);
         StetasUpdate(3,data);
       },
       error:(
@@ -182,7 +195,7 @@
        
   });
 
-function StetasUpdate(id,datas){
+function StetasUpdate(id,datas){//ステータス表示更新
   const resdata = datas,
         noteshantei = resdata["noteshantei"],
         gameover = resdata["gameOverFlag"],
@@ -209,3 +222,27 @@ function StetasUpdate(id,datas){
       $('#enemyid'+id).html( playerSt[id]["characterName"]+"の攻撃！ =>"+resdata["damage"]+"のダメージ<br>"+enemtSt[id]["characterName"]+"HP:"+ (parseInt(enemtSt[id]["HP"])-parseInt(enemtSt[id]["curretnDamage"])));
     }
 }
+
+function gameEnd(){//曲終わり、ゲームオーバー時に呼び出す
+  
+}
+
+//ダブルタップの拡大防止策
+document.addEventListener(EVENTNAME_TOUCHSTART, event=>{
+  if(event.targetTouches > 1){
+    event.preventDefault();
+  }
+}, {
+  passive:false
+});
+
+let lastTouch=0;
+document.addEventListener(EVENTNAME_TOUCHEND, event=>{
+  const now = window.performance.now();
+  if(now - lastTouch <= 500){
+    event.preventDefault();
+  }
+  lastTouch=now;
+},{
+  passive:false
+});

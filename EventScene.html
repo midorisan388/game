@@ -33,12 +33,12 @@
                 </div>
             </div>
         
+            <script type="text/javascript" src="js/TouchController.js"></script>
             <script type="text/javascript" src="js/prag/jquery-3.3.1.js"></script>
             <script type="text/javascript" src="js/sprite.js"></script>
             <script type="text/javascript" src="js/EventSceneMath.js"></script>
             <script type="text/javascript" src="js/SelifTextcontrol.js"></script>
             <script type="text/javascript">
-                    var inputType=((window.ontouchstart!==null)?'click':'touchstart');//PCの場合'click'で反応
                     var selifID=1;
                     var nextdata = 1;
                     var selectGroupId=0;
@@ -70,7 +70,7 @@
 
                     $(function(){ 
                         
-                        $('.open').on(inputType,function(){
+                        $('.open').on(EVENTNAME_TOUCHSTART,function(){
                             $('#leftctrl').css('width',100+'px');
                             $('.open').css('width',0+'px');
                           });
@@ -79,13 +79,13 @@
                          $('.open').css('width',50+'px');
                       });
                           
-                        $('.touchscreen').on(inputType,function(){
+                        $('.touchscreen').on(EVENTNAME_TOUCHSTART,function(){
                             if(eventmodedoc.attr('data-textmode') === "selif"){
                                 textupdate();
                             }
                         });    
                        
-                        $('.selectlis').on(inputType,function(){    
+                        $('.selectlis').on(EVENTNAME_TOUCHSTART,function(){    
                             selectupdate($(this).attr('data-nextln'));
                          });                  
                     });

@@ -1,5 +1,5 @@
 $.ajax({
-    url:"http://localhost/serverside/MenuVar.html",
+    url:"MenuVar.html",
     dataType:"html",
     cache:false,
     async:false,
@@ -7,7 +7,6 @@ $.ajax({
         $(".MenuVar-frame").html(data);
     },
     error:(function(XMLHttpRequest, textStatus, errorThrown) {
-          alert('error!!!');
       　　console.log("XMLHttpRequest : " + XMLHttpRequest.status);
       　　console.log("textStatus     : " + textStatus);
       　　console.log("errorThrown    : " + errorThrown.message);              

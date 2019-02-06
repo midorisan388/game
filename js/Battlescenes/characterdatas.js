@@ -1,6 +1,6 @@
-var
-member_size_X = member_size_Y=64,//サイズ
-partyspritesize_W=576,partyspritesize_H=64;
+const
+member_size_X = member_size_Y=64,//SD画像一枚分のサイズ
+partyspritesize_W=576,partyspritesize_H=64;//スプライトシート一枚分のサイズ
 
 //キャラクターデータクラス
 function CharacterData(img){

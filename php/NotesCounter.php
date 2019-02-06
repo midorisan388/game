@@ -4,7 +4,7 @@ error_reporting(E_ALL);
 
 try{
     function NotesCol($gametime,$notesdata,$id){
-        $timingZone=array(
+        $timingZone=array(//タイミング許容範囲と追加SCORE
             "BAD"=>array(
                 "judget"=>0.42,
                 "upScore"=>0

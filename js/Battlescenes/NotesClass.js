@@ -20,13 +20,14 @@ notesimg_sprite={
 notesImagsprite.src = "img/battlescene/notesiconsprite.png";
 
 var
+//ノーツカウンター　全ノーツ数
   notescounter=0,notesLen=0,
 
-  notescount=0,
+ // notescount=0,
 
   notes=[];//ノーツオブジェクト配列
 
-//今のtころ保留
+//今のところ保留
 function SkillCall(num){
   AudioTest(num);
  $.ajax({
@@ -52,26 +53,22 @@ function SkillCall(num){
 //------JSONファイルからノーツ情報取得&格納-------------------------------------//
 function Notesinit(data){
   
-  const notesdata_json = JSON.parse(data);
+  const notesdata_json = JSON.parse(data);//JSON形式へエンコード
   
   var i=0;
     notesdata_json.forEach((notesdata) => {
     notes_ = notesdata;
-    //NotesClass(notes_['lernID'],notes_['timing'],notes_['type']);
     notes[i] = {
-      timing:notes_['timing'],
-      lernID:notes_['lernID'],
-      type:notes_['type'],
-      judge:"ALWAY"
+      timing:notes_['timing'],//タイミング時間
+      lernID:notes_['lernID'],//レーンID
+      type:notes_['type'],//ノーツタイプ
+      judge:"ALWAY"//状態初期化
     };
     i++;
 });
-  notesLen=notes.length;
+  notesLen=notes.length;//全ノーツ数格納
 }
 //----------------------------------------------------------------------------//
-function SearchNotes(no){
-  AudioTest(no);
-}
 
 
 function NotesDraw(){
@@ -81,24 +78,24 @@ function NotesDraw(){
     //60fps = 110px  -notesimg_size/2
     if(notes[i]["judge"] === "ALWAY"){
       const  
-            x_ = 156+((notes[i].timing-Gametimer)*markerdistance),
-            y_=25+notes[i].lernID*20,
+            x_ = 156+((notes[i].timing-Gametimer)*markerdistance),//横移動座標
+            y_=25+notes[i].lernID*20,//レーンIDに対応した座標
 
-            timingjudge = Math.abs(Gametimer-notes[i].timing);
+      //判定基準に従ってノーツエフェクト(y座標かえるだけ)
+      timingjudge = Math.abs(Gametimer-notes[i].timing);//判定時差計算
 
-      if(timingjudge <= juge_time.PARF){
+      if(timingjudge <= juge_time.PARF){//PERFECT範囲内
        notesimg_sprite[notes[i].type].draw(ctx, x_-notesimg_size/2, 30+notes[i].lernID*20);
-      }else  if(timingjudge<=juge_time.GREAT){
+      }else  if(timingjudge<=juge_time.GREAT){//GREAT範囲内
        notesimg_sprite[notes[i].type].draw(ctx, x_-notesimg_size/2, 35+notes[i].lernID*20);
-      }else  if(timingjudge <= juge_time.GOOD){
+      }else  if(timingjudge <= juge_time.GOOD){//GOOD範囲内
         notesimg_sprite[notes[i].type].draw(ctx, x_-notesimg_size/2, 40+notes[i].lernID*20);
-      }else {
+      }else {//判定外時間
        notesimg_sprite[notes[i].type].draw(ctx, x_-notesimg_size/2, 45+notes[i].lernID*20);
       }
-
+//打ち損じた時点で通信
    if(Gametimer - notes[i].timing >  juge_time.BAD){
         notes[i].judge ="MISS";
-       
         //ajax通信でノーツデータ更新
          notesMissfunc();
         break;
@@ -124,7 +121,7 @@ const notesMissfunc = function(){
     },
     error:(
       function(XMLHttpRequest, textStatus, errorThrown) {
-      alert('error!!!');
+      alert('n:error!!!');
   　　console.log("XMLHttpRequest : " + XMLHttpRequest.status);
   　　console.log("textStatus     : " + textStatus);
   　　console.log("errorThrown    : " + errorThrown.message); 

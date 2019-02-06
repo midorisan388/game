@@ -1,21 +1,24 @@
-
+const 
+SD_W=120,SD_H=120,
+ICON_W=120,ICON_H=120;
 
 var
-x,y,
-  SD_W=120,SD_H=120,
-  ICON_W=120,ICON_H=120,
-  i,
-  backgroundImg="img/battlescene/mapimgtest.jpg",
+  x,y,
+
+  backgroundImg="img/battlescene/mapimgtest.jpg",//背景画像
   Nortsimg = new Image(),
   Norts_,
   lernImg = new Image(),
 
   leaderIcon=new Image(),
 
-  memberIconimg=[new Image(),new Image(),new Image(),new Image()],
-  memberSDImg=[new Image(),new Image(),new Image(),new Image()],
-  battler=[],
 
+  //プレイヤーメンバー画像
+  memberIconimg=[new Image(),new Image(),new Image(),new Image()],//タップアイコン画像
+  memberSDImg=[new Image(),new Image(),new Image(),new Image()],//戦闘SD画像
+  battler=[],//メンバーデータ
+
+  //レーン画像座標
   lernElement_top=[],
   lernElement_h=[],
   lernElement_w=[];
@@ -49,7 +52,6 @@ function battlemember(sdimg,iconimg,id,name,hp,pow){//Supportスキルやらも�
       lernElement_top[i]=$('#lern'+i).offset().top;
       x=lernElement_w[i]*0.75;
       y=canvas_h*0.5 + (canvas_h*0.5/4)*(i-1);
-      //battler[i-1].memberSD.draw(ctx_,lernElement_w[i]*0.75,lernElement_top[i]-lernElement_h[i]);
       battler[i-1].memberSD.draw(ctx_,x,y-SD_H/2);
       Norts_.draw(ctx_,canvas_w/2-(40*i),y-150/2);
     }

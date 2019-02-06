@@ -4,7 +4,7 @@ div{
 
 /*メニューバーコンテンツ*/
 .MenuVar-content{
-    z-index: 10000;
+    z-index: 9000;
     background-color:rgba(0,0,0,0.7);
     position: absolute;
     top: 0px;
@@ -44,7 +44,6 @@ div{
     width: 100%;
     height: 100vh;
     background-image: url("../img/menu/btn048_02.png");
-
 }
 
 .closemenu{
@@ -54,16 +53,16 @@ div{
 
 @media screen and (orientation: landscape){/*横画面なら縦に広げる*/
     /*メニューバー親オブジェクト*/
-#Menu-links-content{
-    right: 0px;
+    #Menu-links-content{
+        right: 0px;
 
-    display: block;
-    width: 110px;
-    height: auto;
-}
-.MenuLinkBtn{
-    width: auto;
-}
+        display: block;
+        width: 110px;
+        height: auto;
+    }
+    .MenuLinkBtn{
+        width: auto;
+    }
     .openmenu{
        right: 0%;
        top:60px;

@@ -4,7 +4,8 @@
 <head>
  <meta charset="utf-8" />
  <link rel="stylesheet" href="./css/Home.css" type="text/css" />
- <link rel="stylesheet" href="./css/MenuVar.css" />
+ <link rel="stylesheet" href="./css/MenuVar.css" type="text/css" />
+ <link rel="stylesheet" href="./css/gameFormatStyle.css" type="text/css" />
 
  <script src="./js/HomeSprite.js"></script>
  <script type="text/javascript" src="./js/prag/jquery-3.3.1.js"></script>
@@ -25,7 +26,7 @@
                     <div class="MenuLink-div" id="PartyBtn">編成</div>
                </div>
                <div class="HomeMenu-btn-content">
-                    <div class="MenuLink-div"id="QuestBtn"><a href="http://localhost/serverside/BattleScene.html">クエスト</a></div>
+                    <div class="MenuLink-div"id="QuestBtn"><a href="./BattleScene.html">クエスト</a></div>
                </div>
                <div class="HomeMenu-btn-content">
                     <div class="MenuLink-div"id="UpgreadBtn">強化</div>
@@ -47,6 +48,9 @@
  </div>
  <div class="MenuVar-frame"></div>
 
+ <div class="Format-frame"></div>
+
+ <script type="text/javascript" src="js/GameFormatInsert.js"></script>
 <script type="text/javascript" src="js/MenuVarInsert.js"></script>
 <script type="text/javascript">
 
@@ -56,13 +60,12 @@
         async:false,
         dataType:"json",
         success:function(data){            
-            $("#username").html(data["userdata"]["username"]);
-            $("#userrank").html("Rank: "+data["userdata"]["userrank"]);
-            $("#userexp").html("Exp: "+ data["userdata"]["userexp"] +"/"+ data["userdata"]["usernextexp"]);
-            $("#homechara").attr("src",data["charaurl"]);
+            $("#username").html(data["userdata"]["username"]);//プレイヤー名表示
+            $("#userrank").html("Rank: "+data["userdata"]["userrank"]);//ランク表示
+            $("#userexp").html("Exp: "+ data["userdata"]["userexp"] +"/"+ data["userdata"]["usernextexp"]);//プレイヤー経験値表示
+            $("#homechara").attr("src",data["charaurl"]);//プレイヤーキャラクター画像url取得
         },
         error:(function(XMLHttpRequest, textStatus, errorThrown) {
-              alert('error!!!');
           　　console.log("XMLHttpRequest : " + XMLHttpRequest.status);
           　　console.log("textStatus     : " + textStatus);
           　　console.log("errorThrown    : " + errorThrown.message);              

@@ -116,6 +116,11 @@ body{
 }
 
 @media screen and (orientation :landscape){/*横画面ならメニューボタンは➡半分に*/
+  .MenuLink-div{
+    size: 16px;
+    
+  }
+
   .HomeMenu-Linkscontent{
     position: absolute;
     width: 50%;

@@ -20,7 +20,7 @@ session_start();
 </head>
 <body>
     <p>ログアウトしました</p>
-    <p><a href="http://localhost/serverside/LoginHome.html">ログイン画面へ</a></p>
+    <p><a href="../LoginHome.html">ログイン画面へ</a></p>
 </body>
 </html>
 
