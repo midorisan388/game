@@ -4,63 +4,52 @@ ini_set('display_errors',"On");
 error_reporting(E_ALL);
 require_once("../Skills/SkillClass.php");
 
+function setStetasPartySide($partySt, $stetasObj){//全体にステータス付与
+    $i=0;
+    for( $i=0; $i<4; $i++){
+        if($partySt[$i]->$haracterId === null )$partySt[$i]->characterId=0;
+        if($partySt[$i]->characterId !==0 )
+            array_push($partySt[$i]->stetasList, $stetasObj);//ステータス付与
+    }
+
+    return $partySt;//変更後のステータス返す
+}
+
+function setStetasPartySolo($charaSt, $stetasObj){//単体にステータス付与
+    if($charaSt->characterId >= 0 )
+        $charaSt->setStetas($stetasObj);
+
+    return $charaSt;//変更後のステータス返す
+}
+
 //バフデバフ付与スキル
 class SetStetas extends SkillBase{
     private $setStetasObj;//追加ステータスクラスオブジェクト
     private $stetasObjList=array();//オブジェクトリスト
-    private $stetas_;//ステータスIDリスト
+    private $stetasIds=array();//ステータス異常IDリスト
 
     //スキル名称,固有引数データ
-    public function __construct($name,$stetasArray){
+    public function __construct($name,$ct,$stetasArray){
+        //スキルパラメータ格納
         $this->skillname=$name;
-        $this->stetas_=$stetasArray;//ステータス異常IDリスト
-
-        $stetasFile=file("../../datas/csv/StetasDataList.csv");//ステータスリストファイル読み込み
-         //ステータス配列に格納されているIDと一致するかを検索
-         foreach($this->stetas_ as $stetasId){
-
-            foreach($stetasFile as $stetas){
-             $data = explode(',', $stetas);
-             $dataIndex =(int)$data[0];//ステータスレコードのIDをキャスト
-             $stetasIndex =(int)$this->stetas_[$i];//ステータスリストのIDをキャスト
-
-             if($dataIndex === $stetasIndex){//ステータスIDがargument[]のIDと一致するか
-                 require_once("../StetasClass/".$data[2].".php");
-                                         //クラス名　　表示名    対象   効果量   持続ターン　バフデバフ　計算タイミング
-                 $this->setStetasObj = new $data[2]($data[1],$data[3],$data[4],$data[5],$data[6],$data[7]);//ステータスクラス生成
-                array_push($this->stetasObjList, $this->setStetasObj);//ステータスリストに追加
-             }
-         }
-        }
-       // echo("状態異常スキル:".$this->skillname."を装備<br>");
+        $this->argument=$stetasArray;//異常ステータスIDリスト
+        $this->skillCharge=(int)$ct;
     }
 
-    public function skillaction($actionplayer, $targrtSt){ 
-       
-            foreach($this->stetasObjList as $stetas){
-                //対象判定
-                if($stetas->target === "party"){
-                    //味方にステータス付与     
-                    array_push($actionplayer["stetas"], $stetas);
-                    //echo("メンバーに".$stetas->statename."を付与<br>");
-                    break;
-                }else if($stetas->target === "enemy"){
-                    //敵にステータス付与
-                    array_push($targrtSt["stetas"], $stetas);
-                    //echo("敵に".$stetas->statename."を付与<br>");
-                    break;
-                }else{
-                    array_push($actionplayer["stetas"], $stetas);
-                    //echo("その他に".$stetas->statename."を付与<br>");
-                }
-               
-            }
-            //echo $this->skillname." 発動！<br>";
-           
-            $resdata = array("acter"=>$actionplayer,"target"=>$targrtSt);
-       // return $resdata; 
-        //echo("ステータス<br>");
-       //var_dump($resdata["acter"]["stetas"]);
+    public function skillaction($actionplayer, $targetSt, $id, $eId){ 
+        $this->actionMes = $actionplayer[$id]->characterName."はスキル<strong class=damage >".$this->skillname."</strong>を発動<br>";
+        $stetasIds = array();
+        $stetasIds = $this->argument;
+
+        foreach($stetasIds as $stetasId){//ステータス異常IDの数ループ
+            $responsdata = GeinStetas($actionplayer[$id], $stetasId);//ステータス付与
+            $actionplayer[$id] = $responsdata["updateSt"];
+            $this->actionMes .="自身に{$responsdata['Stname']}を付与<br>";
+        }
+        $this->damage=0;
+        $resdata = array("acter"=>$actionplayer,"target"=>$targetSt,"damage"=>$this->damage,"actMes"=>$this->actionMes);//ステータス情報を返す
+        
+        return $resdata; 
     }
 }
 

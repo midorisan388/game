@@ -13,13 +13,4 @@ try{
   echo "次のエラーが発生しました<br>";
   echo $erro->getmessage();
 }
-
 ?>
-<html lang="ja">
-<head>
-  <meta charset="utf-8">
-</head>
-<body>
-  <a href="Loginhome.html">ログインページへ戻る</a>
-</body>
-</html>

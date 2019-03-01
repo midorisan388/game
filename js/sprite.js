@@ -1,4 +1,4 @@
-
+//スプライトシート 576*384 px
 
 function Sprite(img, x, y, width, height,scal) {
     this.img = img;
@@ -33,8 +33,7 @@ Sprite.prototype.draw = function (ctx_, x, y) {
 
 
 AnimSprite.prototype.animdraw = function (ctx_, x, y,updatecounter) {
-    if(this.stepX >= this.maxStepX)this.stepX=0;
-    if(this.stepY >= this.maxStepY)this.stepY=0;
+    if(this.stepX >= this.maxStepX)this.stepX=0;//コマ始点X0
 
     ctx_.drawImage(this.img,//Image()
       this.x+this.stepX*(this.spriteWidth),//コマの始点座標x
@@ -42,11 +41,15 @@ AnimSprite.prototype.animdraw = function (ctx_, x, y,updatecounter) {
        this.spriteWidth,//切り取り幅
        this.spriteHeight,//切り取り高さ
         x, y,
-        this.spriteWidth/this.scal,
-         this.spriteHeight/this.scal);
+        this.spriteWidth*this.scal,
+         this.spriteHeight*this.scal);
 
-    if(updatecounter % STEPTIME === 0){
+    if(updatecounter % STEPTIME === 0){//コマ送り
       this.stepX++;
-      if(this.stepX === this.maxStepX)this.stepY++;
+      if(this.stepX >= this.maxStepX){//モーション終了             
+          return false;
+        }
     }
+
+    return true;
 };

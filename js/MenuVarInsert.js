@@ -4,7 +4,7 @@ $.ajax({
     cache:false,
     async:false,
     success:function(data){
-        $(".MenuVar-frame").html(data);
+      $('body').append(data);
     },
     error:(function(XMLHttpRequest, textStatus, errorThrown) {
       　　console.log("XMLHttpRequest : " + XMLHttpRequest.status);
@@ -12,3 +12,4 @@ $.ajax({
       　　console.log("errorThrown    : " + errorThrown.message);              
     })
 });
+

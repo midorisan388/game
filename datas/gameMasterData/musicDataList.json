@@ -1,37 +1,39 @@
 {
     "0":{
         "ID":0,
-        "音楽タイトル":"前奏",
+        "musictitle":"前奏",
         "audioFilePath":"audio/bgm/battle0.ogg",
-        "notesFilePath":"../../datas/Notesfile/Notestimingdatatest.json",
-        "itemGachaID":[1,2,3]
+        "notesFilePath":"../../datas/Notesfile/Notestimingdatatest.json"
     },
     "1":{
         "ID":1,
-        "音楽タイトル":"逃走劇",
+        "musictitle":"逃走劇",
         "audioFilePath":"audio/bgm/battle1.ogg",
-        "notesFilePath":"../../datas/Notesfile/Notestimingdatatest.json",
-        "itemGachaID":[4,5,6]
+        "notesFilePath":"../../datas/Notesfile/Notestimingdatatest.json"
     },
     "2":{
         "ID":2,
-        "音楽タイトル":"戦火",
+        "musictitle":"戦火",
         "audioFilePath":"audio/bgm/battle2.ogg",
-        "notesFilePath":"../../datas/Notesfile/Notestimingdatatest.json",
-        "itemGachaID":[2,4,6]
+        "notesFilePath":"../../datas/Notesfile/Notestimingdatatest.json"
     },
     "3":{
         "ID":3,
-        "音楽タイトル":"祈願",
+        "musictitle":"祈願",
         "audioFilePath":"audio/bgm/battle3.ogg",
-        "notesFilePath":"../../datas/Notesfile/Notestimingdatatest.json",
-        "itemGachaID":[4,1,2]
+        "notesFilePath":"../../datas/Notesfile/Notestimingdatatest.json"
+        
     },
     "4":{
         "ID":4,
-        "音楽タイトル":"悲哀",
+        "musictitle":"悲哀",
         "audioFilePath":"audio/bgm/boss0.ogg",
-        "notesFilePath":"../../datas/Notesfile/Notestimingdatatest.json",
-        "itemGachaID":[0,1,2]
+        "notesFilePath":"../../datas/Notesfile/Notestimingdatatest.json"
+    },
+    "5":{
+        "ID":5,
+        "musictitle":"先陣",
+        "audioFilePath":"audio/bgm/battle2.ogg",
+        "notesFilePath":"../../datas/Notesfile/notestest-1.json"
     }
 }

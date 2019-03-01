@@ -5,7 +5,8 @@ session_start();
 ini_set('display_errors',"On");
 error_reporting(E_ALL);
 
-require_once("C:\MAMP\htdocs\serverside\php\battlePHP\BattleActorStetas.php");//ステータスクラス
+require_once("../../datas/sql.php");//ユーザー情報テーブル情報
+require_once("./BattleActorStetas.php");//ステータスクラス
 require_once("../getcharacterlist.php");//csvからくキャラデータを読み込む処理ファイル
 
 $csvpath ="../../datas/csv/CharactersStetas.csv";
@@ -16,37 +17,44 @@ $enemyAllStList=array();//敵ステータスの初期値
 $enemyStetasList=array();//全敵ステータス
 $enemystandSt =array();//更新用敵ステータス
 $index=0;//配置ID
-
+$userid = $_SESSION["userid"];//ログインユーザーID
 try{
 /*----------------------------------初期値セット-----------------------------------------------*/
-//パーティのキャラIDを読み込む :今は適当なIDで探す
-$partymember_ids=array(1,12,3,25);
+//パーティのキャラIDを読み込む
+ //SQL接続-----------------------------------------------------------------
+ $sql_list=new PDO("mysql:host=$SERV;dbname=$GAME_DBNAME",$USER,$PASSWORD);
+ $sql_list->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY,true);
+ $sql_list-> setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+ //----------------------------------------------------------------------
+$user_party_table = $sql_list->query("SELECT * FROM {$userpartytable} WHERE UserID='{$userid}'");
+$user_party_table=$user_party_table->fetch();
+$partymember_ids=[$user_party_table[1],$user_party_table[2],$user_party_table[3],$user_party_table[4]];
+
 $party_csvData=array();
+
 for($index=0;$index<4;$index++){
-    $partyid=$partymember_ids[$index];
-    //$partymember_idsをもとにデータ取得
-   array_push( $partyStetas_Origine,CharacterDataSet($partyid,$csvpath));//キャラデータの初期値取得
+    $partyid= (int)$partymember_ids[$index];
+    if($partyid >= 0){
+        //$partymember_idsをもとにデータ取得
+        array_push($partyStetas_Origine,getRecord($partyid,$csvpath));//キャラデータの初期値取得(マスターデータ)
 
-   //同時に更新用ステータス連想配列格納
-   $party_csvData[$index]=array(
-    "name"=>$partyStetas_Origine[$index][1], //表示キャラ名
-    "id"=>$index,//$partyStetas_Origine[$index][0],//マスタデータID=>スキルIDやらはここから取得
+        //同時に更新用ステータス連想配列格納
+        $party_csvData[$index]=array(
+            "name"=>$partyStetas_Origine[$index][2], //表示キャラ名
+            "id"=>$partyid,//キャラクターID
+            "imgid"=>$partyStetas_Origine[$index][1],//画像の通し番号
+            "type"=>$partyStetas_Origine[$index][13],//バトルタイプ
+            "dravegage"=>0,//奥義ゲージ(%)
+            "HP"=>$partyStetas_Origine[$index][15],//基礎体力
+            "pow"=>$partyStetas_Origine[$index][16],//基礎攻撃力
+            "def"=>$partyStetas_Origine[$index][17],//基礎防御力
+            "magicpow"=>$partyStetas_Origine[$index][18],//基礎魔力
+            "mental"=>$partyStetas_Origine[$index][19],//基礎精神力
+            "skillid"=>$partyStetas_Origine[$index][21]//スキルID
+        );
 
-    "type"=>$partyStetas_Origine[$index][12],//タイプ
-    "count"=>10,//スキルCT
-    "dravegage"=>0,//奥義ゲージ(%)
-    "HP"=>$partyStetas_Origine[$index][16],//基礎体力
-    "damage"=>0,//受けているダメージ
-    "pow"=>$partyStetas_Origine[$index][17],//基礎攻撃力
-    "def"=>$partyStetas_Origine[$index][18],//基礎防御力
-    "magicpow"=>$partyStetas_Origine[$index][19],//基礎魔力
-    "mental"=>$partyStetas_Origine[$index][20],//基礎精神力
-    "skillid"=>$partyStetas_Origine[$index][21]//スキルID
-   );
-
-   array_push($partySt, new BattleActor($party_csvData[$index]));
-
-   //$index++;
+        array_push($partySt, new BattleActor($party_csvData[$index]));
+    }
 }
 
 //テストデータ
@@ -54,6 +62,7 @@ $enemyAllStList =array(
     "enemy0"=>array(
         "name"=>"ゴブリン", 
         "id"=>0,
+        "imgid"=>0000,
         "type"=>0,
         "count"=>10,
         "dravegage"=>0,
@@ -70,6 +79,7 @@ $enemyAllStList =array(
     "enemy1"=>array(
         "name"=>"ウルフ", 
         "id"=>1,
+        "imgid"=>0000,
         "type"=>3,
         "count"=>12,
         "dravegage"=>0,
@@ -86,6 +96,7 @@ $enemyAllStList =array(
     "enemy2"=>array(
         "name"=>"スノウゴブリン", 
         "id"=>2,
+        "imgid"=>0000,
         "type"=>0,
         "count"=>10,
         "dravegage"=>0,
@@ -102,6 +113,7 @@ $enemyAllStList =array(
     "enemy3"=>array(
         "name"=>"ボブゴブリン", 
         "id"=>3,
+        "imgid"=>0000,
         "type"=>0,
         "count"=>10,
         "dravegage"=>0,
@@ -118,6 +130,7 @@ $enemyAllStList =array(
     "enemy4"=>array(
         "name"=>"メリー", 
         "id"=>4,
+        "imgid"=>0000,
         "type"=>2,
         "count"=>10,
         "dravegage"=>0,
@@ -134,6 +147,7 @@ $enemyAllStList =array(
     "enemy5"=>array(
         "name"=>"サハギン", 
         "id"=>5,
+        "imgid"=>0000,
         "type"=>2,
         "count"=>10,
         "dravegage"=>0,
@@ -152,7 +166,7 @@ $enemyAllStList =array(
 //敵ステータスをセット
 for($index =0;$index<4;$index++){
     array_push($enemyStetasList,new BattleActor($enemyAllStList["enemy".$index]));
-    if($index<4){
+    if($index<6){
         array_push($enemystandSt,new BattleActor($enemyAllStList["enemy".$index]));
     }
 }

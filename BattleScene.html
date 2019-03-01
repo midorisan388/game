@@ -5,6 +5,7 @@
   <meta name="viewport" 
   content="width=device-width, initial-scale=1.0, user-scalable=no">
     
+  <script type="text/javascript" src="js/prag/jquery-3.3.1.js"></script>
     <script src="js/sprite.js"></script>
     <script src="js/Battlescenes/characterdatas.js"></script>
     <script src="js/Battlescenes/Battlescene_Audio.js"></script>
@@ -12,13 +13,14 @@
     <script src="js/Battlescenes/Battleenemy.js"></script>
 
     <link rel="stylesheet" href="./css/gameFormatStyle.css" type="text/css" />
-    <link rel="stylesheet" href="css/battlemap1.css" />
+    <link rel="stylesheet" href="css/battlemap.css" />
+    <link rel="shortcut icon" href="img/menu/loginicon.jpg">
+    <title>バトル</title>
 
 </head>
 <body>
   <div class="gameview">
     <div class="audiodata" hidden>
-        <!--audio id="battlebgm" src="" preload="auto" controls autoplay></audio-->
     </div>
     <div class="battlestageview">
       <div id="mainview">
@@ -39,7 +41,7 @@
       </div>
       <div class="inputicons">
         <div class="partymembers-icon" class="deth" id="member1-icon" value=0>
-          <img class="iconImg" id="membericonimg1" src="img/characters/character1/1051010101.png">
+          <img class="iconImg" id="membericonimg1" src="">
           <div class="back_box" id="backbox_member1"></div>
           <div class="HP_box alive" id="HPbox_member1"></div>
           <img class="Mainframe" id="member1" src="img/battlescene/charaframe.jpg">
@@ -48,7 +50,7 @@
           <div class="memberstetasview" id="member1_stetas">ステータスだよ</div>
         </div>
         <div class="partymembers-icon" id="member2-icon" value=1>
-          <img class="iconImg" id="membericonimg2" src="img/characters/character2/1036010101.png">
+          <img class="iconImg" id="membericonimg2" src="">
           <div class="back_box" id="backbox_member2"></div>
           <div class="HP_box alive" id="HPbox_member2"></div>
           <img class="Mainframe" id="member2" src="img/battlescene/charaframe.jpg">
@@ -57,7 +59,7 @@
           <div class="memberstetasview" id="member2_stetas">ステータスだよ</div>
         </div>
         <div class="partymembers-icon" id="member3-icon" value=2>
-          <img class="iconImg" id="membericonimg3" src="img/characters/character3/1104010101.png">
+          <img class="iconImg" id="membericonimg3" src="">
           <div class="back_box" id="backbox_member3"></div>
           <div class="HP_box alive" id="HPbox_member3"></div>
           <img class="Mainframe" id="member3" src="img/battlescene/charaframe.jpg">
@@ -66,7 +68,7 @@
           <div class="memberstetasview" id="member3_stetas">ステータスだよ</div>
         </div>
         <div class="partymembers-icon" id="member4-icon" value=3>
-          <img class="iconImg" id="membericonimg4" src="img/characters/character4/1464010101.png">
+          <img class="iconImg" id="membericonimg4" src="">
           <div class="back_box" id="backbox_member4"></div>
           <div class="HP_box alive" id="HPbox_member4"></div>
           <img class="Mainframe" id="member4" src="img/battlescene/charaframe.jpg">
@@ -77,6 +79,8 @@
     </div>
   </div>
   <div id="stetasview">
+        <div class="non_view" id="battle_anounce_party"></div>
+        
         <div class=stetaschild id=enemycount>
           <table id="judgecount">
             <thead><td class="score-parent">
@@ -103,13 +107,11 @@
             </td></tbody>
           </table>
         </div>
-      </div>
+  </div>
 
-<div class="startscreen" onclick="playStart()"><p> タッチしてスタート</p></div>
+<div class="startscreen" onclick="playStart()"><p>タッチしてスタート</p></div>
   <div class="Format-frame"></div>
 
-<!--jQuery-->
-  <script type="text/javascript" src="js/prag/jquery-3.3.1.js"></script>
   <script type="text/javascript" src="js/GameFormatInsert.js"></script>
 
   <script type="text/javascript" src="js/Battlescenes/battlescenemainscript.js"></script>
@@ -136,14 +138,12 @@
             url:'php/battlePHP/UserBattleStetasSet.php',
             type:"post",
             dataType:"json",
-            data:{
-              questid:1,
-            },
             success:function(data){              
               resdata=data;
               Init(resdata);             
               const runningUpdate = run();
-            window.setInterval(()=>{run();
+            window.setInterval(()=>{
+              run();
              } , 1000/60);
             },
             error:(function(XMLHttpRequest, textStatus, errorThrown) {

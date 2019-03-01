@@ -5,9 +5,13 @@ error_reporting(E_ALL);
 
 $i=0;
 try{
+    //スキルの基底クラス
     class SkillBase {
         public $skillname;//スキル名
         public $argument;//固有引数
+        public $skillCharge;//スキルCT
+        public $damage;
+        protected $actionMes;//行動メッセージ
     }
 
    

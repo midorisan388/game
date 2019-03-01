@@ -23,28 +23,7 @@ var
   lernElement_h=[],
   lernElement_w=[];
 
-
-function battlemember(sdimg,iconimg,id,name,hp,pow){//Supportスキルやらも渡す
-    this.sdimg=sdimg;
-    this.icon=iconimg;
-    this.memberIcon=new Sprite(this.icon,0,0,ICON_W,ICON_H);
-    this.memberSD=new Sprite(this.sdimg,0,0,SD_W,SD_H);
-    this.name=name;
-    this.hp=hp;
-    this.pow=pow;
-  }
-
-  function initSprite(){
-    Nortsimg.src="img/battlescene/norts.jpg";
-    Norts_=new Sprite(Nortsimg,0,0,120,150);
-    for(i=0;i<4;i++){
-      memberSDImg[i].src="img/characters/stand"+(i+1)+".jpg";
-      memberIconimg[i].src="img/characters/face"+(i+1)+".jpg";
-      battler[i]=new battlemember(memberSDImg[i],memberIconimg[i],i,"メンバー"+i,100*i,50*i);
-    }
-  }
-
-
+//レーン描画
   function memberRender(ctx_){
     for(i=1;i<=4;i++){
       lernElement_w[i]=$('#lern'+i).width();

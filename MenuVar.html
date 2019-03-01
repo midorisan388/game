@@ -1,37 +1,56 @@
     <div class="MenuVar-content">
+            <div class="Menu-option-content closeoption">
+                <div class="option_content_frame">
+                   <div id="option_content_body">
+                    <div class="audio_ctl">
+                        <h1>オーディオ</h1>
+                        <h2>BGM</h2>
+                        <input id="audio_slider" type="range" min="0" max="10" step="1" oninput="document.getElementById('audio_val_out').value=(this.value*10)+'%'">
+                        <output id="audio_val_out"></output>
+                        <h2>SE</h2>
+                        <input id="se_slider" type="range" min="0" max="10" step="1" oninput="document.getElementById('se_val_out').value=(this.value*10)+'%'">
+                        <output id="se_val_out"></output>
+                    </div>
+                  </div>
+                 </div>
+            </div>
         <div class="closemenu" id="Menu-links-content" >
-           
-                <button class="MenuLinkBtn" value="Mypage">
+           <div id="menu_contents">
+                <button class="MenuLinkBtn" id="Mypage" value="Mypage">
                     <div class="Menulink" id="mypageLink"><span class="MenuLinkSpan"><a href="Mypage.html">マイページ</a></span>
                     </div>
                 </button>
-                <button class="MenuLinkBtn" value="Mypage">
+                <button class="MenuLinkBtn" id="Party" value="Party">
                     <div class="Menulink" id="partyLink">
-                        <span class="MenuLinkSpan">編成</span>
+                        <span class="MenuLinkSpan"><a href="PartyChange.html">パーティ編成</a></span>
                     </div>
                 </button>
-                <button class="MenuLinkBtn" value="Mypage">
+                <button class="MenuLinkBtn" id="Gradeup" value="Gradeup">
                     <div class="Menulink"　id="greadupLink">
                         <span class="MenuLinkSpan">強化</span>
                     </div>
                 </button>
-                <button class="MenuLinkBtn" value="Mypage">
+                <button class="MenuLinkBtn" id="Quest" value="Quest">
                     <div class="Menulink" id="questLink">
-                       <span class="MenuLinkSpan"><a href="BattleScene.html">クエスト</a></span>
+                       <span class="MenuLinkSpan"><a href="questSelectScene.html">クエスト</a></span>
                   </div>
                </button>
-                <button class="MenuLinkBtn" value="Mypage">
+                <button class="MenuLinkBtn" id="Userdata" value="Userdata">
                     <div class="Menulink" id="userdataLink">
-                        <span class="MenuLinkSpan"><a href="php/Useraccountpage.php">ユーザ</a></span>
+                        <span class="MenuLinkSpan"><a href="Useraccountpage.php">ユーザ</a></span>
                     </div>
                 </button>
-                <button class="MenuLinkBtn" value="Mypage">
+                <button class="MenuLinkBtn" id="Logout" value="Logout">
                     <div class="Menulink" id="logoutLink">
                         <span class="MenuLinkSpan"><a href="php/outpage.php">ログアウト</a></span>
                     </div>
                 </button>
-            <div class="Menulink" id="menubuttonspace">
-            </div>
+                <button class="MenuLinkBtn" id="Option" value="Option" onclick="Optionmenu()">
+                    <div class="Menulink" id="optionLink">
+                        <span class="MenuLinkSpan">オプション</span>
+                    </div>
+                </button>
+             </div>
         </div>
 
         <div class="menuoperate" id="close">
@@ -43,8 +62,26 @@
         </div>
 
        <script type="text/javascript">
+        $(window).on('load',()=>{
+            $.ajax({
+                url:"./php/gameSystemPHP/OptionSetting.php",
+                type:'post',
+                dataType:'json',
+                data:{
+                    option:'all'
+                }
+            }).done(function(data){
+                $('audio').prop('volume',data["audio"]/10);
+                $('#se_slider').value=data["se"];
+            }).fail(function(XMLHttpRequest, textStatus, errorThrown) {
+                alert('error!!!');
+            　　console.log("XMLHttpRequest : " + XMLHttpRequest.status);
+            　　console.log("textStatus     : " + textStatus);
+            　　console.log("errorThrown    : " + errorThrown.message); 
+            });
+        });
          function MenuOpen(){
-             if( $("#Menu-links-content").hasClass("openmenu")){
+             if($("#Menu-links-content").hasClass("openmenu")){
               $("#Menu-links-content").addClass("closemenu");
               $("#Menu-links-content").removeClass("openmenu");
              }else if( $("#Menu-links-content").hasClass("closemenu")){
@@ -52,5 +89,54 @@
               $("#Menu-links-content").removeClass("closemenu");
              }
          }
+
+         function Optionmenu(){
+            if($(".Menu-option-content").hasClass("openoption")){
+              $(".Menu-option-content").addClass("closeoption");
+              $(".Menu-option-content").removeClass("openoption");
+            }else if($(".Menu-option-content").hasClass("closeoption")){
+              $(".Menu-option-content").addClass("openoption");
+              $(".Menu-option-content").removeClass("closeoption");
+            }
+         }
+        
+         $(function(){
+            $("#audio_slider").on('change',function(){
+                $.ajax({
+                    url:"./php/gameSystemPHP/OptionSetting.php",
+                    type:'post',
+                    dataType:'json',
+                    data:{
+                        audio_volume:this.value,
+                        option:'audio'
+                    }
+                }).done(function(data){
+                    $('audio').prop('volume',data/10);
+                }).fail(function(XMLHttpRequest, textStatus, errorThrown) {
+                    alert('error!!!');
+                　　console.log("XMLHttpRequest : " + XMLHttpRequest.status);
+                　　console.log("textStatus     : " + textStatus);
+                　　console.log("errorThrown    : " + errorThrown.message); 
+                });
+            });
+            $("#se_slider").on('change',function(){
+                $.ajax({
+                    url:"php/gameSystemPHP/OptionSetting.php",
+                    type:'post',
+                    dataType:'json',
+                    data:{
+                        se_volume:this.value,
+                        option:'se'
+                    }
+                }).done(function(data){
+                    
+                }).fail(function(XMLHttpRequest, textStatus, errorThrown) {
+                    alert('error!!!');
+                　　console.log("XMLHttpRequest : " + XMLHttpRequest.status);
+                　　console.log("textStatus     : " + textStatus);
+                　　console.log("errorThrown    : " + errorThrown.message); 
+                });
+            });
+         });
        </script>
     </div>

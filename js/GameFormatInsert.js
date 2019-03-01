@@ -4,7 +4,7 @@ $.ajax({//画面の向きを検出して案内を表示する
     cache:false,
     async:false,
     success:function(data){
-        $(".Format-frame").html(data);
+        $("body").append(data);
     },
     error:(function(XMLHttpRequest, textStatus, errorThrown) {
       　　console.log("XMLHttpRequest : " + XMLHttpRequest.status);

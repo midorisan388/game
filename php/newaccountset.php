@@ -34,6 +34,8 @@
       try{
           //SQL接続-----------------------------------------------------------------
           require_once("../datas/sql.php");
+          $quest_data_file="../datas/gameMasterData/questDataList.json";//クエストデータファイルパス
+
           $sql_list=new PDO("mysql:host=$SERV;dbname=$DBNAME",$USER,$PASSWORD);
           $sql_list->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY,true);
           $sql_list-> setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
@@ -53,12 +55,21 @@
           }
 
           if($login_succes == true){
+              $quest_list=array();
+              $quest_list=file_get_contents($quest_data_file);
+              $quest_list=mb_convert_encoding($quest_list, 'UTF8', 'ASCII,JIS,UTF-8,EUC-JP,SJIS-WIN');//文字化け防止
+              $quest_list=json_decode($quest_list,true);
+              
               $userdata['userID'] = $id;
               $userdata['userpass'] = $pass;
               $userdata['username']= $name;
 
               //アカウント追加処理
               $sql_list->query("CALL adduser('$id','$pass','$name')");
+
+              foreach($quest_list as $questId){
+                $questlist = $sql_list->query("INSERT INTO {$userquestclearflag}.{$GAME_DBNAME} VALUES ('{$id}','{$questId["ID"]',0,NULL)");//クエストクリアフラグ追加
+              }
               $log_mes = "新しく登録されました<br><a href='../Login.php'>ログインに戻る</a>";
               $login_succes=true;
           }else{

@@ -12,6 +12,7 @@
       Startdelay=0,Gametimer=0,offsetTime=0,
       updatecounter=0,
       audioObj;//BGM再生用オブジェクト
+      audioDurarion=0;//再生時間
 
     const
       actionfile ='php/battlePHP/ActionSkillList.php',
@@ -40,6 +41,7 @@
       icon_offset_x=canvas_w*0.05;
       charaicon_margine=canvas_w/4;
 
+      //クエストデータ、ステータスデータ格納
       const audiodata = data["audiohtml"],
       titledata =data["title"],
       notesfile=data["notesdata"],
@@ -47,7 +49,7 @@
       enemystetas = data["enemySt"];
 
       $("#battlebgm").attr("src",audiodata);
-      $('#addstetas').html(titledata);//タイトル表示
+      $('#addstetas').html(titledata);//曲タイトル表示
       ScoreInit();
       Partyinit(partystetas);
       Enemyinit(enemystetas);
@@ -57,12 +59,18 @@
     }
 
     function touchStartPlay(audioObj){
-      audioObj.play();//音楽再生開始
+     /* audioObj.play();//音楽再生開始
+      AudioTest();*/
+      AudioSetup(audioObj);
+      audioDurarion=audioObj.duration;//終了時間取得
     }
 
     function update(){
-    
-      Timecount();
+      if(audioDurarion <= Gametimer){
+        GameStage="Clear";
+      }else{
+       Timecount();
+      }
     }
 
     function render(){
@@ -72,8 +80,30 @@
     }
 
     function run() {
+      
+      if(GameStage === "GameOver"){
+        location.href="./MyPage.html";
+      }
+      if(GameStage === "Clear"){
+       
+        location.href="./MyPage.html";
+        $.ajax({
+          url:"php/battlePHP/battleEnd.php",
+          type:"post",
+          success:function(data){
 
-      if(GameStage === "Play"){
+          },
+          error:(
+            function(XMLHttpRequest, textStatus, errorThrown) {
+            alert('error!!!');
+        　　console.log("XMLHttpRequest : " + XMLHttpRequest.status);
+        　　console.log("textStatus     : " + textStatus);
+        　　console.log("errorThrown    : " + errorThrown.message); 
+           
+          })
+        });
+      }
+      else if(GameStage === "Play"){
         if(!checkMedia()){
           GameStage="Pause";
           audioObj.pause();
@@ -86,145 +116,85 @@
     }
 
 //トリガーイベント
+$(function(){
+
   $('#member1-icon').on(EVENTNAME_TOUCHSTART,function(){
-    $.ajax({
-      url: actionfile,
-      dataType:"json",
-      type:"post",
-      data:{
-         notesdata:notes,
-         time:Gametimer,
-         lernid:0,
-      },
-      success:function(data){
-        AudioTest(0);
-        StetasUpdate(0,data);
-      },
-      error:(
-        function(XMLHttpRequest, textStatus, errorThrown) {
-        alert('error!!!');
-    　　console.log("XMLHttpRequest : " + XMLHttpRequest.status);
-    　　console.log("textStatus     : " + textStatus);
-    　　console.log("errorThrown    : " + errorThrown.message); 
-        
-      },function(data){  
-       
-      }) 
-    });
-     
+    Action(0);
   });
   $('#member2-icon').on(EVENTNAME_TOUCHSTART,function(){
-    $.ajax({
-      url: actionfile,
-      dataType:"json",
-      type:"post",
-      data:{
-         notesdata:notes,
-         time:Gametimer,
-         lernid:1,
-      },
-      success:function(data){
-        AudioTest(1);
-        StetasUpdate(1,data);
-      },
-      error:(
-        function(XMLHttpRequest, textStatus, errorThrown) {
-        alert('error!!!');
-    　　console.log("XMLHttpRequest : " + XMLHttpRequest.status);
-    　　console.log("textStatus     : " + textStatus);
-    　　console.log("errorThrown    : " + errorThrown.message); 
-       
-      },function(data){    
-       
-      }) 
-    });
-       
+    Action(1);
   });
   $('#member3-icon').on(EVENTNAME_TOUCHSTART,function(){
-    $.ajax({
-      url: actionfile,
-      dataType:"json",
-      type:"post",
-      data:{
-         notesdata:notes,
-         time:Gametimer,
-         lernid:2,
-      },
-      success:function(data){
-        AudioTest(2);
-        StetasUpdate(2,data);
-      },
-       error:(
-        function(XMLHttpRequest, textStatus, errorThrown) {
-        alert('error!!!');
-    　　console.log("XMLHttpRequest : " + XMLHttpRequest.status);
-    　　console.log("textStatus     : " + textStatus);
-    　　console.log("errorThrown    : " + errorThrown.message); 
-       
-      },function(data){    
-       // console.log(data);    
-      }) 
-    });
-       
+    Action(2);
   });
   $('#member4-icon').on(EVENTNAME_TOUCHSTART,function(){
-    $.ajax({
-      url: actionfile,
-      dataType:"json",
-      type:"post",
-      data:{
-         notesdata:notes,
-         time:Gametimer,
-         lernid:3,
-      },
-      success:function(data){
-        AudioTest(3);
-        StetasUpdate(3,data);
-      },
-      error:(
-        function(XMLHttpRequest, textStatus, errorThrown) {
-        alert('error!!!');
-    　　console.log("XMLHttpRequest : " + XMLHttpRequest.status);
-    　　console.log("textStatus     : " + textStatus);
-    　　console.log("errorThrown    : " + errorThrown.message); 
-       
-      },function(data){    
-       // console.log(data);    
-      }) 
-    });
-       
+    Action(3);
   });
+});
 
-function StetasUpdate(id,datas){//ステータス表示更新
+function Action(memberid_){
+  AudioTest(battle_se_volume);
+
+  $.ajax({
+    url: actionfile,
+    dataType:"json",
+    type:"post",
+    data:{
+       notesdata:notes,
+       time:Gametimer,
+       lernid:memberid_,
+       updatenotes:"alway"
+    },
+  }).done(function(data){
+    PlayerActionUpdate(memberid_,data);
+  }).fail(function(XMLHttpRequest, textStatus, errorThrown) {
+    alert('error!!!');
+　　console.log("XMLHttpRequest : " + XMLHttpRequest.status);
+　　console.log("textStatus     : " + textStatus);
+　　console.log("errorThrown    : " + errorThrown.message); 
+   
+  });
+}
+
+function PlayerActionUpdate(id_, datas_){
+  StetasUpdate(id_, datas_);
+}
+
+function StetasUpdate(id,datas){//ステータス表示更新  
   const resdata = datas,
         noteshantei = resdata["noteshantei"],
         gameover = resdata["gameOverFlag"],
         playerSt = resdata["memberdata"],
-        enemtSt = resdata["enemydata"];
-        
+        state = resdata["motionState"],
+        message = resdata["message"];
+      
         notes=resdata["notesdata"];//ノーツデータ更新
         ScoreUpdate(noteshantei);
 
       
     if(gameover === "Gameover"){
-      //全滅処理
-    }else{
-   
-      for(var i=0;i<4;i++){
-        playerrenderStetas[i].currentHp=playerSt[i]["HP"];
+      gameEnd();
+    }else{ 
+      playerrenderStetas.map( function( memberSt, index, array){        
+        memberSt.currentHp=playerSt[index]["HP"]-playerSt[index]["currentDamage"];//HP更新
+        const 
+          memberhpasp = parseFloat(parseInt(memberSt.currentHp)/parseInt(memberSt.MaxHp));
 
-        let memberhpasp = parseFloat(parseInt(playerrenderStetas[i].currentHp)/parseInt(playerrenderStetas[i].MaxHp));
-        let enemyhpasp =parseFloat(parseInt(enemtSt[i]["HP"]-enemtSt[i]["damage"])/parseInt(enemtSt[i]["HP"]));
-        
-        $("#HPbox_member"+(i+1)).css("width",(memberhpasp)*100 +"%");
-        $("#member"+(i+1)+"_stetas").html(playerrenderStetas[i].currentHp);
-      }      
-      $('#enemyid'+id).html( playerSt[id]["characterName"]+"の攻撃！ =>"+resdata["damage"]+"のダメージ<br>"+enemtSt[id]["characterName"]+"HP:"+ (parseInt(enemtSt[id]["HP"])-parseInt(enemtSt[id]["curretnDamage"])));
+        $("#HPbox_member"+(index+1)).css("width",(memberhpasp)*100 +"%");//HPバー更新
+        $("#member"+(index+1)+"_stetas").html(memberSt.currentHp);//パーティHP表示
+      });
+      
+      if(playerSt[id].currentHp <= 0){
+        CharacterStateChange(id, "dead");//戦闘不能モーション変更
+      }
+      else CharacterStateChange(id, state);//モーション変更
+      $('#battle_anounce_party').html(message);//行動メッセージ表示
     }
 }
 
 function gameEnd(){//曲終わり、ゲームオーバー時に呼び出す
-  
+  audioObj.pause();
+  GameStage="GameOver";
 }
 
 //ダブルタップの拡大防止策

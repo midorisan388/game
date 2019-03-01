@@ -7,7 +7,7 @@ session_start();
   error_reporting(E_ALL);
 
   function PlayerLoginSetting($id_s){
-    $_SESSION['userid']=$id_s;
+    $_SESSION['userid']=$id_s;//ユーザーID保持
     header( "Location: ../Mypage.html" );
     exit();
   }

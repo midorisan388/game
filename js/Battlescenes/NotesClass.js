@@ -27,28 +27,6 @@ var
 
   notes=[];//ノーツオブジェクト配列
 
-//今のところ保留
-function SkillCall(num){
-  AudioTest(num);
- $.ajax({
-  url:"php/battlePHP/battleCharacterSt.php",
-  method:"post",
-  data:{
-    mid:num,
-    stetaspara:"Pow"
-  },
-  success:function(data){
-    var damage = data;
-    $('#enemyid'+num).html(damage);
-  },
-  error:function(data){
-    console.log("error"+data);
-  }
-});
- 
-  //getPartyMemberActionSkill(num);//アクションスキル呼び出し
-}
-
 
 //------JSONファイルからノーツ情報取得&格納-------------------------------------//
 function Notesinit(data){
@@ -72,8 +50,10 @@ function Notesinit(data){
 
 
 function NotesDraw(){
+  
   const ctx = document.getElementById("maincanvas").getContext('2d');
-  for(i in notes){
+
+  for(i=0;i<notes.length;i++){
     //center 156px
     //60fps = 110px  -notesimg_size/2
     if(notes[i]["judge"] === "ALWAY"){
@@ -88,23 +68,21 @@ function NotesDraw(){
        notesimg_sprite[notes[i].type].draw(ctx, x_-notesimg_size/2, 30+notes[i].lernID*20);
       }else  if(timingjudge<=juge_time.GREAT){//GREAT範囲内
        notesimg_sprite[notes[i].type].draw(ctx, x_-notesimg_size/2, 35+notes[i].lernID*20);
-      }else  if(timingjudge <= juge_time.GOOD){//GOOD範囲内
+      }else if(timingjudge <= juge_time.GOOD){//GOOD範囲内
         notesimg_sprite[notes[i].type].draw(ctx, x_-notesimg_size/2, 40+notes[i].lernID*20);
-      }else {//判定外時間
-       notesimg_sprite[notes[i].type].draw(ctx, x_-notesimg_size/2, 45+notes[i].lernID*20);
-      }
-//打ち損じた時点で通信
-   if(Gametimer - notes[i].timing >  juge_time.BAD){
+      }else if(Gametimer - notes[i].timing >  juge_time.BAD){
         notes[i].judge ="MISS";
         //ajax通信でノーツデータ更新
-         notesMissfunc();
+         notesMissfunc(notes[i].lernID);
         break;
-      }
+      }else {//判定外時間
+        notesimg_sprite[notes[i].type].draw(ctx, x_-notesimg_size/2, 45+notes[i].lernID*20);
+       }
     }
   }
 }
 
-const notesMissfunc = function(){
+const notesMissfunc = function(id_){//打ち損じ
   $.ajax({
     url: 'php/battlePHP/ActionSkillList.php',
     dataType:"json",
@@ -112,12 +90,11 @@ const notesMissfunc = function(){
     data:{
       notesdata:notes,
       time:Gametimer,
-      lernid:i,
+      lernid:id_,
+      updatenotes:"miss"
     },
     success:function(data){
-      
-      StetasUpdate(notes[i].lernID,data);
-      //SearchNotes(1);
+      PlayerActionUpdate(id_,data);
     },
     error:(
       function(XMLHttpRequest, textStatus, errorThrown) {

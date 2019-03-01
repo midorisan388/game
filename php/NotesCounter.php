@@ -3,7 +3,7 @@ ini_set('display_errors',"On");
 error_reporting(E_ALL);
 
 try{
-    function NotesCol($gametime,$notesdata,$id){
+    function NotesCol($gametime,$notesdata,$id, $notesSt){
         $timingZone=array(//タイミング許容範囲と追加SCORE
             "BAD"=>array(
                 "judget"=>0.42,
@@ -24,19 +24,20 @@ try{
         );
 
         //初期化
-        $hanteicount = array("MISS"=>0,"BAD"=>0,"GOOD"=>0,"GREAT"=>0,"PARF"=>0,"COMB"=>0,"SCORE"=>0);
-        $hanteicount["SCORE"]=(!isset($_SESSION["Score"]))?0:0;//$_SESSION["Score"];
-        $hanteicount["COMB"]=(!isset($_SESSION["COMB"]))?0:0;//$_SESSION["COMB"];
+        $hanteicount = array("MISS"=>0,"BAD"=>0,"GOOD"=>0,"GREAT"=>0,"PARF"=>0,"COMB"=>0,"SCORE"=>0);//判定データ
+        $hanteicount["SCORE"]=(!isset($_SESSION["Score"]))?0:$_SESSION["Score"];//スコアデータセッション
+       // $hanteicount["COMB"]=(!isset($_SESSION["Comb"]))?0:$_SESSION["Comb"];//コンボデータセッション
 
         $battleNotesdatas = $notesdata;
         if(isset($battleNotesdatas)){
          $noteslength = count($battleNotesdatas);//要素数取得
         }else{
-            echo "count=0";
             $noteslength=0;
         }
         $count = 0;
 
+
+        if($notesSt !== "miss"){
         //タイミングの計算
         foreach($battleNotesdatas as $battleNotes){
             if($battleNotes["judge"]==="ALWAY"){
@@ -45,6 +46,7 @@ try{
 
                     $timejudge = (float)$gametime-(float)$battleNotes["timing"];
 
+                    
                     if(abs($timejudge) <= $timingZone["PARF"]["judget"]){
                         $battleNotesdatas[$count]["judge"] = "PARF";
                       
@@ -83,12 +85,20 @@ try{
                 "lernID"=>0,
                 "timing"=>0,
                 "type"=>"AKT",
-                "judge"=>"GREAT"
+                "judge"=>"OVER"
             );
         }else{
             $notesresponsdata=$battleNotesdatas[$count];
         }
-        //判定配列の更新
+    }else{//失敗判定で呼ばれていたらmissを返す
+        $notesresponsdata=array(
+            "lernID"=>0,
+            "timing"=>0,
+            "type"=>"AKT",
+            "judge"=>"MISS"
+        );
+    }
+        //判定配列の更新 0から数えなおす
         foreach($battleNotesdatas as $battleNotes){
             if($battleNotes["judge"] === "MISS"){
                 $hanteicount["MISS"]++;
@@ -112,7 +122,7 @@ try{
             }
         }
 
-       $_SESSION["COMB"] =  $hanteicount["COMB"];
+       $_SESSION["Comb"] =  $hanteicount["COMB"];
        $_SESSION["Score"] =  $hanteicount["SCORE"];
        $_SESSION["notesdata"]=$battleNotesdatas;//ノーツデータ更新
 
