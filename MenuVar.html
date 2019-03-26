@@ -3,11 +3,11 @@
                 <div class="option_content_frame">
                    <div id="option_content_body">
                     <div class="audio_ctl">
-                        <h1>オーディオ</h1>
-                        <h2>BGM</h2>
+                        <h2>オーディオ</h2>
+                        <h3>BGM</h3>
                         <input id="audio_slider" type="range" min="0" max="10" step="1" oninput="document.getElementById('audio_val_out').value=(this.value*10)+'%'">
                         <output id="audio_val_out"></output>
-                        <h2>SE</h2>
+                        <h3>SE</h3>
                         <input id="se_slider" type="range" min="0" max="10" step="1" oninput="document.getElementById('se_val_out').value=(this.value*10)+'%'">
                         <output id="se_val_out"></output>
                     </div>
@@ -93,9 +93,11 @@
          function Optionmenu(){
             if($(".Menu-option-content").hasClass("openoption")){
               $(".Menu-option-content").addClass("closeoption");
+              $(".option_content_frame").css("width", "0%");
               $(".Menu-option-content").removeClass("openoption");
             }else if($(".Menu-option-content").hasClass("closeoption")){
               $(".Menu-option-content").addClass("openoption");
+              $(".option_content_frame").css("width", "300px");
               $(".Menu-option-content").removeClass("closeoption");
             }
          }

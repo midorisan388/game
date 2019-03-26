@@ -7,8 +7,9 @@ ini_set('display_errors',"On");
     
 require_once("./battleStetasSetUp.php");//戦闘キャラのステータス格納
 
-$questid =  $_SESSION["QUEST_ID"];//クエストID取得
+$questid =  $_SESSION["QUEST_ID"];//選択されたクエストID取得
 $_SESSION["questId"] = $questid;
+$_SESSION["AP_UPDATE"]=false;
 
 require_once("./questDataTest.php");//クエストデータのセットアップ
 

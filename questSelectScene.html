@@ -14,6 +14,8 @@
     <script> 
         $(window).on('load',function(){
             $('audio').prop('volume',0);
+            $(".loading").addClass('loading_comp');
+            $(".loading").removeClass('loading');
             $(".loading").fadeOut();
         });
     </script>
@@ -69,14 +71,7 @@
     <div class="MenuVar-frame"></div>
 
     <div class="Format-frame"></div>
-    <div class="loading" 
-           style="z-index: 1000000;
-           position:absolute;
-           margin: 0;padding: 0;border: 0;
-           width: 100%;height: 100vh;
-           top:0;left: 0;
-           background-color: aquamarine;"
-       >Loading...</div>
+    <div class="loading"></div>/div>
    <script type="text/javascript" src="js/GameFormatInsert.js"></script>
    <script type="text/javascript" src="js/MenuVarInsert.js"></script>
 

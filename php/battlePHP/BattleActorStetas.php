@@ -16,7 +16,7 @@ class BattleActor{
     public $currentDamage=0;
     public $HP=0;
     public $power=0;
-    protected $defense=0;
+    public $defense=0;
     protected $magicPow=0;
     protected $mental=0;
     private $stetasList=array();

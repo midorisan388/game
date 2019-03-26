@@ -21,7 +21,7 @@ class StandardDamage extends SkillBase{//倍率ダメージのみ
         $this->damageup = (int)$this->argument;
         //ダメージ計算
         $Basedamage =  $actionplayer[$id]->power*(1+PowerCol($actionplayer[$id]->getStetas()));//基礎ダメージ
-        $this->damage = ($Basedamage + random_int(10,100))*$this->damageup;//倍率計算
+        $this->damage = ($Basedamage + random_int(10,100))*$this->damageup -  $targetSt[$eId]->defense;//倍率計算
         
         //ダメージを当たれる
         $targetSt[$eId] = GeinDamage($targetSt[$eId], $this->damage);

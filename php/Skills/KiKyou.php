@@ -21,7 +21,7 @@ class Kikyou extends SkillBase{
         $this->damageup = (int)$this->damageup;
         //ダメージ計算
         $Basedamage =  $actionplayer[$id]->power*(1+PowerCol($actionplayer[$id]->getStetas()));//基礎ダメージ
-        $this->damage = ($Basedamage + random_int(10,100))*$this->damageup;//倍率計算
+        $this->damage = ($Basedamage + random_int(10,100))*$this->damageup -  $targetSt[$eId]->defense;//倍率計算
         //ダメージを与える
         $targetSt[$eId] = GeinDamage($targetSt[$eId], $this->damage);
 

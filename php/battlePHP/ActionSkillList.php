@@ -32,8 +32,8 @@ $partyStetas = $_SESSION["partySt"];//バトルメンバーステータス
 $skillUpdate=array();//スキル使用時に更新されたステータス格納
 $csvpath ="../../datas/csv/CharactersStetas.csv";
 
-function skillFunc($skillDt, $id){
-    //スキル使用後処理
+function skillLateFunc($skillDt, $id){ //スキル使用後処理
+   
     global $partyStetas;
     global $enemyStetas;
    // global $damage;
@@ -48,16 +48,15 @@ function skillFunc($skillDt, $id){
     $partyStetas[$id]->skillCurrentCount =0;//スキルCTリセット
     $motion="skill";
     //セッションデータ更新
-   // $_SESSION["enemyStMst"]=$enemyStetasList ;//敵ステータスリスト
     $_SESSION["enemySt"]=$enemyStetas;//攻撃対象になる敵のステータス
     $_SESSION["partySt"]=$partyStetas;//バトルメンバーステータス
 
 }
 
-function stetasCheck($actioncharacter, $targetcharacter){
+function stetasCheck($actioncharacter, $targetcharacter){//ダメージ計算
     //ステータス更新
     $Basedamage=$actioncharacter->power;
-    $damage = $Basedamage+random_int(15,20);
+    $damage = $Basedamage+random_int(15,20) - $targetcharacter->defense;
 
     //体力参照,更新
     $totaldamage = $targetcharacter->currentDamage + $damage; 
@@ -72,7 +71,7 @@ function stetasCheck($actioncharacter, $targetcharacter){
 }
 
 function skillUseFlag($actioncharacter){//スキル使用フラグを変返す
-   if(/*$actioncharacter->skillCharge*/1 <= $actioncharacter->skillCurrentCount)
+   if($actioncharacter->skillCharge <= $actioncharacter->skillCurrentCount)
     return true;
    else return false;
 } 
@@ -119,28 +118,30 @@ try{
         if(isset($partyStetas[$memberid])){
             if(characterAction($partyStetas[$memberid])){//行動可能時
                 if(saftyParty($enemyStetas)){//敵パーティが全滅していない
+                    //ターゲット決定
+                    if(characterAction($enemyStetas[$memberid])){//同レーンの敵が生存している
+                        $enemyId = $memberid;
+                    }else{
+                        $enemyId = targetRandomSelect($enemyStetas);//相手が戦闘不能の時他のラインの敵を狙う
+                    }
+
                     if(skillUseFlag($partyStetas[$memberid])){//スキル使用間隔にチャージできていればスキル使用
                         //スキル使用可能時
-                        if(characterAction($enemyStetas[$memberid])){
+                        if(characterAction($enemyStetas[$memberid])){//同レーンのエネミーが生存中か
                             $enemyId = $memberid;
                         }else{
                             $enemyId = targetRandomSelect($enemyStetas);//相手が戦闘不能の時他のラインの敵を狙う
                         }
                         $skillUpdate = $partyStetas[$memberid]->skillUse($partyStetas, $enemyStetas, $memberid, $enemyId);//スキル使用後の更新ステータス受け取り
-                        skillFunc($skillUpdate, $memberid);
+                        skillLateFunc($skillUpdate, $memberid); //スキル使用後処理
 
                         $partyStetas[$memberid]->skillCurrentCount=0;
 
                     }else{//通常行動
-                        if(characterAction($enemyStetas[$memberid])){
-                            $enemyId = $memberid;
-                        }else{
-                            $enemyId = targetRandomSelect($enemyStetas);//相手が戦闘不能の時他のラインの敵を狙う
-                        }
-
+                    
                         $damage_val = stetasCheck($partyStetas[$memberid], $enemyStetas[$enemyId]);
 
-                        $partyStetas[$memberid]->skillCurrentCount ++;
+                        $partyStetas[$memberid]->skillCurrentCount++;
 
                         $motion="attack";
 
@@ -157,7 +158,6 @@ try{
                 $actionMes= $partyStetas[$memberid]->characterName."は体力を100回復した";
 
                 if(characterAction($partyStetas[$memberid])) $motion="idle";//蘇生
-
             }
         }else{
             //メンバーが編成されていない処理

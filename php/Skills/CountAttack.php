@@ -19,7 +19,7 @@ class CountAttack extends SkillBase{//連続ダメージ
         $i=1;
         while($i <= $count){
             $Basedamage = $actionplayer[$id]->power*(PowerCol($actionplayer[$id]->getStetas()));//基礎ダメージ
-            $this->damage = ($Basedamage + random_int(10,100));
+            $this->damage = ($Basedamage + random_int(10,100)) - $targetSt[$eId]->defense;
          
             $targetSt[$eId]=GeinDamage($targetSt[$eId], $this->damage);
             //$targetSt[$eId]->currentDamage += $this->damage;

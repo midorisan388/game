@@ -18,9 +18,7 @@
                     <p id="remake"></p>
                 </div>
                 <div id="selects">
-                    <div class="selectlis" id="select-0"  data-nextln="1"></div>
-                    <div class="selectlis" id="select-1"  data-nextln="1"></div>
-              </div>
+                </div>
             </div>
                      
             <div class="controlpanel">
@@ -38,81 +36,11 @@
             <script type="text/javascript" src="js/sprite.js"></script>
             <script type="text/javascript" src="js/EventSceneMath.js"></script>
             <script type="text/javascript" src="js/SelifTextcontrol.js"></script>
-            <script type="text/javascript">
-                    var selifID=1;
-                    var nextdata = 1;
-                    var selectGroupId=0;
-                   
-                    const eventmodedoc = $('#selifcanvas');
-                    let eventmode = eventmodedoc.attr('data-textmode');
-                    let text;
-                                     
-                    var textupdate = function(){
-                        
-                        text = sendRequest(selifID);
-                        text = JSON.parse(text);
-                        SelifCtrl(text);
-                        nextdata = Number(eventmodedoc.attr('data-lnid'));
-
-                        selifID = nextdata;                        
-                    }
-                    
-                    var selectupdate = function(l){
-                        var selectdoc=l;//クリックした方の選択肢を取得
-                        
-                        eventmodedoc.attr('data-lnid',l);
-                        eventmodedoc.attr('data-textmode',"selif");
-                        selifID = l;
-                        textupdate();
-                        
-                    }
-
-
-                    $(function(){ 
-                        
-                        $('.open').on(EVENTNAME_TOUCHSTART,function(){
-                            $('#leftctrl').css('width',100+'px');
-                            $('.open').css('width',0+'px');
-                          });
-                        $('.close').on(inputType,function(){  
-                         $('#leftctrl').css('width',0+'px');
-                         $('.open').css('width',50+'px');
-                      });
-                          
-                        $('.touchscreen').on(EVENTNAME_TOUCHSTART,function(){
-                            if(eventmodedoc.attr('data-textmode') === "selif"){
-                                textupdate();
-                            }
-                        });    
-                       
-                        $('.selectlis').on(EVENTNAME_TOUCHSTART,function(){    
-                            selectupdate($(this).attr('data-nextln'));
-                         });                  
-                    });
-                  
-                    
             </script>
             <script type="text/javascript">
-                var i = 0;
-                var timer=0;
-                const STEPTIME=20;
-                var main= function(){
-                    timer++;
-                    ctx.clearRect(0,0,c_w*2,c_h*2);
+              EventScene_text();
 
-                    for(var i=0;i<4;i++)
-                      charactersprites[i].move();
-                }
-
-                function init__(){
-                    init();
-                    setline(charactersprites[0], 10, 20,);
-                    setposition(charactersprites[2],20,20);
-                    setveje(charactersprites[1],20,0,5);
-                    setInterval(main,1000/60);
-                }
-              
-                init__();
+           
             </script>
         </body>
         </html>

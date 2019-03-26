@@ -17,12 +17,9 @@ function checkMedia(){
 
     if(DEVICE==='Tablet'){
         // スマホ（iPhone・Androidスマホ）の場合の処理を記述
-        
         $(window).on("load orientationchange resize", function(){
             if(Math.abs(window.orientation) === 90) {
                 $(".orientationView").html();
-                $("#screenMes").html("縦画面横画面");
-
                 return true;
             } else {
                 $("#screenMes").html("横画面にしてください:"+DEVICE);

@@ -1,96 +1,48 @@
 const faceimgurl = "img/Eventimg/";
+var selif_mode="selif";
 
-function createXmlHttpRequest(){
-    var xmlhttp=null;
-    if(window.ActiveXObject)
-    {
-        try
-        {
-            xmlhttp=new ActiveXObject("Msxml2.XMLHTTP");
+function EventScene_text(){
+    $.ajax({
+        url:"./php/getSeliftext.php",
+        dataType:"json",
+        type:"post"
+    }).done(function(data){
+        const serif_data = data;//テキスト整頓済み　表示
+        $('#remake').html(serif_data["owner"]);
+        $('#selif').html(serif_data["body"]);
+        selif_mode=serif_data['mode'];
+
+        //選択肢が続く場合表示
+        var sid=0;
+        var select_lists="";
+        if( selif_mode === "end"){
+            location.href="./MyPage.html";
+        }else if( selif_mode === "select"){
+         while(serif_data['selects_count'] > sid){
+             //選択肢リスト生成
+             select_lists += "<div class=selectlis style=z-index:1000; id=select-"+sid+">"+serif_data['selects'][sid]+"</div>";
+             sid++;
+         }
+         $('#selects').html(select_lists);
+        }else{
+            $('#selects').html("");
         }
-        catch(e)
-        {
-            try
-            {
-                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-            }
-            catch (e2)
-            {
-            }
+    }).fail(function(XMLHttpRequest, textStatus, errorThrown) {
+        alert('error!!!');
+    　　console.log("XMLHttpRequest : " + XMLHttpRequest.status);
+    　　console.log("textStatus     : " + textStatus);
+    　　console.log("errorThrown    : " + errorThrown.message); 
+    });
+}
+
+$(function(){
+    $('div .selectlis').on('click',function(){
+        alert("click");
+        EventScene_text();
+    });
+   $(document).on('click',function(){
+        if(selif_mode === "selif"){
+            EventScene_text();
         }
-    }
-    else if(window.XMLHttpRequest)
-    {
-        xmlhttp = new XMLHttpRequest();
-    }
-    return xmlhttp;
-}
-
-function sendRequest(s)
-{
-    var num=s;
-    var xmlhttp=createXmlHttpRequest();
-    if(xmlhttp!=null)
-    {
-        xmlhttp.open("POST", "php/getSeliftext.php", false);
-        xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        var data="data="+num;
-        xmlhttp.send(data);
-        var res=xmlhttp.responseText;
-        
-       return res;
-    }
-}
-
-function getSelectRequest(s){
-    var num=s;//選択肢グループID
-    var xmlhttp=createXmlHttpRequest();
-    if(xmlhttp!=null)
-    {
-        xmlhttp.open("POST", "php/getSelecttext.php", false);
-        xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        var data="data="+num;
-        xmlhttp.send(data);
-        var res=xmlhttp.responseText;
-       return res;
-    }
-}
-
-function SelifCtrl(t){
-    var txtres;
-    var txt=[];
-
-    var selecthtml;
-    if(t.owner === "@@"){
-        var w=$('#selifcanvas').css('width'),
-            x= $('#selifcanvas').css('left')+w,
-            y=$('#selifcanvas').css('top');
-          
-            txtres=getSelectRequest(selectGroupId);
-            txtres=JSON.parse(txtres);
-
-            txt[0] = txtres[0];
-            txt[1] = txtres[1];
-            $('#selects').css('left',x+"px");
-            $('#selects').css('top',y+"px");
-           $('#select-0').attr('data-nextln',txt[0].nextline);
-           $('#select-1').attr('data-nextln',txt[1].nextline);
-
-            selecthtml = "<p class=selecter >"+txt[0].selecttxt+"</p>";
-            $('#select-0').html(selecthtml);
-            selecthtml = "<p class=selecter >"+txt[1].selecttxt+"</p>";
-            $('#select-1').html(selecthtml);
-
-            $('#selifcanvas').attr('data-textmode',"select");
-    }else{
-        var id=Number(t.id);
-        
-        $('.selectlis').html("");
-        $('#selifcanvas').css('left',charactersprites[id].dx*c_waspect +"px");
-        $('#selifcanvas').css('top',charactersprites[id].dy*c_waspect +"px");
-        $('.faceglaph').attr('src',faceimgurl+t.faceurl);
-        $('#remake').html(t.owner);
-        $('#selif').html(t.selif);
-        eventmodedoc.attr('data-lnid',t.nextline);
-    }
-}
+    });
+})

@@ -6,8 +6,11 @@ require 'php/password.php';
   ini_set('display_errors',"On");
   error_reporting(E_ALL);
 
-  $id_cookie = $_SESSION['userid'];
+  require_once("./php/getcharacterlist.php");//キャラクターレコードを取得する処理ファイル
 
+  $id_cookie = $_SESSION['userid'];
+  $characters_image_dir ="./img/characters/";
+  $csvpath="./datas/csv/CharactersStetas.csv";
   $APhealtime = 10;//分
 
   $userdata=array(
@@ -35,21 +38,32 @@ require 'php/password.php';
     $sql_list-> setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
     //----------------------------------------------------------------------
 
-        $userinfo=$sql_list->query("CALL getuseraccountdata('$id_cookie')");
-        $kekka=$userinfo->fetch();
+     //ユーザー情報取得
+     $userinfo=$sql_list->query("CALL getuseraccountdata('$id_cookie')");
+     $kekka=$userinfo->fetch();
 
+        $userdata['userID']=$kekka['userID'];
+        $userdata['username']=$kekka['username'];
+        $userdata['userexp']=$kekka['userhaveExp'];
+        $userdata['userAP']=$kekka['playerAP'];
+        $userdata['userMaxAP']=$kekka['playerMaxAP'];
+        $userdata['usernextexp']=$kekka['usernextExp'];
+        $userdata['userrank']=$kekka['userRank'];
+             
+        $_SESSION["USER_DATA"] = $userdata;//ユーザー情報を保持
+        $_SESSION["PARTY_IDS"] = array(
+        "1st"=> $kekka['1st'],
+        "2nd"=> $kekka['2nd'],
+        "3rd"=> $kekka['3rd'],
+        "4th"=> $kekka['4th']
+        );
 
-          $userdata['userID']=$kekka['userID'];
-          $userdata['username']=$kekka['username'];
-          $userdata['userexp']=$kekka['userhaveExp'];
-          $userdata['userAP']=$kekka['playerAP'];
-          $userdata['userMaxAP']=$kekka['playerMaxAP'];
-          $userdata['usernextexp']=$kekka['usernextExp'];
-          $userdata['userrank']=$kekka['userRank'];
+   //PT情報取得  
+   $partymember_id=(int)$_SESSION["PARTY_IDS"]['1st'];//一番目のキャラクターID取得
+   
+   $character_data = getRecord($partymember_id,$csvpath);//キャラクターデータ取得
 
-          if($kekka['playerAP'] < $kekka['playerMaxAP']){
-
-          }
+   $character_image_dir = "./img/characters/{$character_data[1]}/{$character_data[1]}0201.png";//通し番号立ち絵
 
 
   }catch(PDOExeption $erro){
@@ -69,6 +83,8 @@ require 'php/password.php';
         <script> 
             $(window).on('load',function(){
                 $('audio').prop('volume',0);
+                $(".loading").addClass('loading_comp');
+                $(".loading").removeClass('loading');
                 $(".loading").fadeOut();
             });
           </script>
@@ -79,7 +95,7 @@ require 'php/password.php';
          </audio>
         <div class="main-contents">
         <div class="left-contents">
-            <div id="user-main-character"><img class="user-main-character-img" src="./img/characters/teststand2.png"></div>
+            <div id="user-main-character"><img class="user-main-character-img" src=<?php echo $character_image_dir; ?>></div>
         </div>
         <div class="right-contents">
             <div id="user-status-contents">
@@ -121,14 +137,7 @@ require 'php/password.php';
             </div>
         </div>
         </div>
-        <div class="loading" 
-            style="z-index: 1000000;
-            position:absolute;
-            margin: 0;padding: 0;border: 0;
-            width: 100%;height: 100vh;
-            top:0;left: 0;
-            background-color: aquamarine;"
-        >Loading...</div>
+        <div class="loading"></div>
     <script type="text/javascript" src="./js/MenuVarInsert.js"></script>
     </body>
 </html>

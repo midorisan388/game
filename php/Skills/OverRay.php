@@ -24,7 +24,7 @@ class OverRay extends SkillBase{
 
         //ダメージ計算
         $Basedamage =  $actionplayer[$id]->power*(1+PowerCol($actionplayer[$id]->getStetas()));//基礎ダメージ
-        $this->damage = ($Basedamage + random_int(10,100))*$this->damageup;//倍率計算
+        $this->damage = ($Basedamage + random_int(10,100))*$this->damageup -  $targetSt[$eId]->defense;//倍率計算
         
         $targetSt[$eId]->currentDamage += $this->damage;//ダメージ数増加
 

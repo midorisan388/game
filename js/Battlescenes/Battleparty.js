@@ -56,20 +56,20 @@ function Partyinit(data){
 
   playerrenderStetas.map(function( partyrender, index, array){
     let img_id = 0;
-    let chara_img_folder ="";//キャラ画像フォルダ名
+    let chara_img_dir ="";//キャラ画像フォルダ名
 
     partyrender.id_img = partySt[index]["imgId"];//通し番号格納    
     img_id=partyrender.id_img;
 
-    chara_img_folder="img/characters/"+img_id;
+    chara_img_dir="img/characters/"+img_id;
 
-    partyrender.sprite=new CharacterData(chara_img_folder+"/"+img_id+"0301.png");//スプライトデータ生成
-    $("#membericonimg"+(index+1)).attr("src", chara_img_folder+"/"+img_id+"0101.png");//顔グラフィックurl格納
+    partyrender.sprite=new CharacterData(chara_img_dir+"/"+img_id+"0301.png");//スプライトデータ生成
+    $("#membericonimg"+(index+1)).attr("src", chara_img_dir+"/"+img_id+"0101.png");//顔グラフィックurl格納
     
-    partyrender.currentHp=partyrender.MaxHp=partySt[i]["HP"];//HP格納
-    partyrender.name=partySt[i]["name"];//キャラ名格納
+    partyrender.currentHp=partyrender.MaxHp=partySt[index]["HP"];//HP格納
+    partyrender.name=partySt[index]["name"];//キャラ名格納
 
-    $("#HPbox_member"+(index+1)).css("width",100 +"%");
+    $("#HPbox_member"+(index+1)).css("width", "100%");
     $("#member"+(index+1)+"_stetas").html(partyrender.currentHp);
   });
 }

@@ -55,7 +55,7 @@
         {"lernID": 0, "timing": 47.705634, "type": "DEF"}
         {"lernID": 3, "timing": 48.827594, "type": "ATK"}
         {"lernID": 3, "timing": 49.340739, "type": "DEF"}
-        {"lernID": 3, "timing": 50.248563, "type": "ENH"}
+        {"lernID": 3, "timing": 5.248563, "type": "ENH"}
         {"lernID": 2, "timing": 51.447832, "type": "DEF"}
         {"lernID": 2, "timing": 52.860142, "type": "DEF"}
         {"lernID": 1, "timing": 54.03317, "type": "ATK"}

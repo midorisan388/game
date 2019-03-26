@@ -96,25 +96,29 @@ function setpartyIds($userid_){//MySQL間のデータ更新と取得
     global $SERV,$GAME_DBNAME,$USER,$PASSWORD,$userpartytable;
     global $party_member_ids;
     global $party_stetas;
-    //SQL接続-----------------------------------------------------------------
-    $sql_list=new PDO("mysql:host=$SERV;dbname=$GAME_DBNAME",$USER,$PASSWORD);
-    $sql_list->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY,true);
-    $sql_list-> setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-    //----------------------------------------------------------------------
 
-    $party_record=$sql_list->query("SELECT * FROM {$userpartytable} WHERE UserID='{$userid_}'");//パーティ情報レコード取得
-    $party_record=$party_record->fetch();
+    if(!isset($_SESSION["PARTY_IDS"])){
+        //SQL接続-----------------------------------------------------------------
+        $sql_list=new PDO("mysql:host=$SERV;dbname=$GAME_DBNAME",$USER,$PASSWORD);
+        $sql_list->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY,true);
+        $sql_list-> setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+        //----------------------------------------------------------------------
 
-    //メンバーキャラクターID格納
-    $party_member_ids=array(
-      "1st"=> $party_record["1st"],
-      "2nd"=> $party_record["2nd"],
-      "3rd"=> $party_record["3rd"],
-      "4th"=> $party_record["4th"]
-    );
+        $party_record=$sql_list->query("SELECT * FROM {$userpartytable} WHERE UserID='{$userid_}'");//パーティ情報レコード取得
+        $party_record=$party_record->fetch();
+    }else{
+        $party_record=$_SESSION["PARTY_IDS"];
+    }
+        //メンバーキャラクターID格納
+        $party_member_ids=array(
+            "1st"=> $party_record["1st"],
+            "2nd"=> $party_record["2nd"],
+            "3rd"=> $party_record["3rd"],
+            "4th"=> $party_record["4th"]
+        );
 
-    $_SESSION["PARTY_IDS"]=$party_member_ids;//IDリストも保持
-
+        $_SESSION["PARTY_IDS"]=$party_member_ids;//IDリストも保持
+   
     $party_stetas=array();
     foreach($party_member_ids as $member){
         //キャラレコード取得,格納
@@ -139,7 +143,9 @@ function panelListGenerage(){
       $character_record_list = file($characterfilepath);
     foreach($character_record_list as $character_list){
         $setflag = 0;//編成済みフラグ
-            if($i > 0){
+        if($i === 0){
+            $drop_down_list .="<option class=selet_character_panel id=panel_{$panelcount} value={$panelcount} data-cId={$i}>キャラクターを選んでください</option>";
+        }else{
                 foreach($party_stetas as $pId){
                     $current_pId=(int)$pId["character_id"];//編成キャラクターID
                     if($i === $current_pId || $i === $selectdata["character_id"]) {
@@ -188,7 +194,18 @@ function setNewPartyData($userid_, $select_party_){
         $party_table_columns =array('1st','2nd','3rd','4th');
         $update_query="UPDATE {$userpartytable} SET {$party_table_columns[$party_insert_id]}={$insert_character_id} WHERE UserID='{$userid_}'";
         $sql_list->query($update_query);  
+        $update_party_ids = $sql_list->query("SELECT * FROM {$userpartytable} WHERE UserID='{$userid_}'");
+        $update_party_ids = $update_party_ids->fetch();
+        //セッションデータ更新
+        $newparty_member_ids=array(
+            "1st"=> $update_party_ids[1],
+            "2nd"=> $update_party_ids[2],
+            "3rd"=> $update_party_ids[3],
+            "4th"=> $update_party_ids[4]
+        );
 
+        $_SESSION["PARTY_IDS"]=$newparty_member_ids;//IDリストも保持
+   
         setpartyIds($userid_);//DB更新　パーティ情報更新
         panelListGenerage();//パネルリスト更新
 
@@ -246,7 +263,7 @@ try{
     }
 
     $resdata=array(
-        "panelList"=> $panelIddata,
+        "panelList"=> $_SESSION["PARTY_IDS"],
         "partystetas"=> $party_stetas,//パーティメンバー情報
         "selectharacter"=> $selectdata,//選択中のキャラクターステータス
         "message"=>$message,//表示メッセージ

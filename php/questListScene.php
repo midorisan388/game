@@ -6,6 +6,7 @@ ini_set('log_errors', true);
 ini_set('display_errors',"On" );
 
 session_start();
+unset($_SESSION["QUEST_ID"]);
 
 function questIdPanelGenerate(){//クエスト一覧表示パネル生成とパネルIDとクエストデータの対応付け
     require_once("./getDataMusic.php");
@@ -28,7 +29,20 @@ function questIdPanelGenerate(){//クエスト一覧表示パネル生成とパ�
     $culms=0;//左から何番目
     $panel_count=0;
 
+    //SQL接続-----------------------------------------------------------------
+    require_once("../datas/sql.php");
+    $sql_list=new PDO("mysql:host=$SERV;dbname=$GAME_DBNAME",$USER,$PASSWORD);
+    $sql_list->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY,true);
+    $sql_list-> setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+    //----------------------------------------------------------------------
     foreach($questArray as $quest){
+
+        $user_quest_data = $sql_list->query("SELECT * FROM {$userquestclearflag} WHERE UserID = '{$_SESSION["userid"]}' AND QuestID='{$quest["ID"]}'");
+        $user_quest_data = $user_quest_data->fetch();
+        $clear = (int)$user_quest_data["ClearFlag"];
+
+        $clear_mes = ($clear === 0)? "未クリア":"クリア済み";
+
         array_push($quest_panel_list, $quest);//パネルに対するクエストデータ格納
         $panel_count++;
         $questId = $index-1;
@@ -39,7 +53,7 @@ function questIdPanelGenerate(){//クエスト一覧表示パネル生成とパ�
             $culms=1;
             $panel_count=1;//１行のパネル数カウントリセット
         }
-        $quest_list .="<div class=quest_panel style=grid-row:".$row.";grid-column:".$culms." id=quest_".$questId." onclick=clickQuestPanel({$questId})><div id=quest_title>".$quest["title"]."</div><div id=clear_flag>未クリア</div></div>";
+        $quest_list .="<div class=quest_panel style=grid-row:".$row.";grid-column:".$culms." id=quest_".$questId." onclick=clickQuestPanel({$questId})><div id=quest_title>".$quest["title"]."</div><div id=clear_flag>{$clear_mes}</div></div>";
         $index++;
     }
 

@@ -89,7 +89,10 @@
         location.href="./MyPage.html";
         $.ajax({
           url:"php/battlePHP/battleEnd.php",
-          type:"post",
+          type:"get",
+          data:{
+            clearmode:"clear"
+          },
           success:function(data){
 
           },
@@ -160,7 +163,7 @@ function PlayerActionUpdate(id_, datas_){
   StetasUpdate(id_, datas_);
 }
 
-function StetasUpdate(id,datas){//ステータス表示更新  
+function StetasUpdate(id, datas){//ステータス表示更新  
   const resdata = datas,
         noteshantei = resdata["noteshantei"],
         gameover = resdata["gameOverFlag"],
@@ -175,7 +178,7 @@ function StetasUpdate(id,datas){//ステータス表示更新
     if(gameover === "Gameover"){
       gameEnd();
     }else{ 
-      playerrenderStetas.map( function( memberSt, index, array){        
+      playerrenderStetas.map(function( memberSt, index, array){        
         memberSt.currentHp=playerSt[index]["HP"]-playerSt[index]["currentDamage"];//HP更新
         const 
           memberhpasp = parseFloat(parseInt(memberSt.currentHp)/parseInt(memberSt.MaxHp));

@@ -13,10 +13,12 @@
     <title>パーティ編成</title>
     <script> 
         $(window).on('load',function(){
-          $('audio').prop('volume',0);
-          $(".loading").fadeOut();
+            $('audio').prop('volume',0);
+            $(".loading").addClass('loading_comp');
+            $(".loading").removeClass('loading');
+            $(".loading").fadeOut();
         });
-    </script>
+  </script>
 </head>
 <body>
     <audio id="homebgm" type="audio/ogg" src="./audio/bgm/homebgm.ogg" preload="auto" autoplay loop>
@@ -25,7 +27,7 @@
     <img class="bg" src="./img/menu/menuback.jpg"> 
     <div class="view-port gridview">
         <div class="select_menu griditem">
-            <div class="gridview griditem">
+            <div class="select_bg gridview griditem">
                 <div class="left_view">
                     <div class="griditem" id="character_list">
                         <select id="select_characters_dropdown" onchange="selectCharacterpanel()">
@@ -34,7 +36,7 @@
                     </div>
                 </div>
                 <div class="right_view griditem">
-                    <div class="gridview griditem">
+                    <div class="character_data_view gridview griditem">
                         <div class="character_img griditem">
                             <img id="character_standimg" alt="キャラ立ち絵" src="img/characters/145901/1459010201.png">
                         </div>
@@ -141,18 +143,7 @@
             </div>
         </div>
     </div>
-
-    <div class="MenuVar-frame"></div>
-
-    <div class="Format-frame"></div>
-    <div class="loading" 
-            style="z-index: 1000000;
-            position:absolute;
-            margin: 0;padding: 0;border: 0;
-            width: 100%;height: 100vh;
-            top:0;left: 0;
-            background-color: aquamarine;"
-        >Loading...</div>
+    <div class="loading"></div>
 
     <script type="text/javascript" src="js/GameFormatInsert.js"></script>
     <script type="text/javascript" src="js/MenuVarInsert.js"></script>
@@ -177,6 +168,7 @@
                     setPartyStetas(partydata);
                     setStetasPanel(data);
                     $("#character_standimg").attr("src",init_faceimg);    
+                    $(".loading").fadeOut();
                  },
                 error:(function(XMLHttpRequest, textStatus, errorThrown) {
                     alert("a!!");

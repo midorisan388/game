@@ -59,7 +59,7 @@ body{
 #selifplate{
     display:flex;
     position: relative;
-    background-image: url("../img/menu/hometest2.jpg");
+    background-color: antiquewhite;
     background-size: cover;
 
 }

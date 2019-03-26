@@ -7,55 +7,60 @@ error_reporting(E_ALL);
 
 require_once("../../datas/sql.php");//ユーザー情報テーブル情報
 require_once("./BattleActorStetas.php");//ステータスクラス
-require_once("../getcharacterlist.php");//csvからくキャラデータを読み込む処理ファイル
+require_once("../getcharacterlist.php");//csvからキャラデータを読み込む処理ファイル
 
-$csvpath ="../../datas/csv/CharactersStetas.csv";
+
+function SetStetas($ids){
+    $index=0;//配置ID
+    $partySt=array();//更新用パーティステータス
+    $partyStetas_Origine=array();//ステータスの初期値
+    $party_csvData=array();
+    $csvpath ="../../datas/csv/CharactersStetas.csv";
+
+    //パーティのキャラIDを読み込む
+    for($index=0;$index<4;$index++){
+        $partyid= (int)$ids[$index];
+        if($partyid >= 0){
+            //$partymember_idsをもとにデータ取得
+            array_push($partyStetas_Origine,getRecord($partyid,$csvpath));//キャラデータの初期値取得(マスターデータ)
+
+            //同時に更新用ステータス連想配列格納
+            $party_csvData[$index]=array(
+                "name"=>$partyStetas_Origine[$index][2], //表示キャラ名
+                "id"=>$partyid,//キャラクターID
+                "imgid"=>$partyStetas_Origine[$index][1],//画像の通し番号
+                "type"=>$partyStetas_Origine[$index][13],//バトルタイプ
+                "dravegage"=>0,//奥義ゲージ(%)
+                "HP"=>$partyStetas_Origine[$index][15],//基礎体力
+                "pow"=>$partyStetas_Origine[$index][16],//基礎攻撃力
+                "def"=>$partyStetas_Origine[$index][17],//基礎防御力
+                "magicpow"=>$partyStetas_Origine[$index][18],//基礎魔力
+                "mental"=>$partyStetas_Origine[$index][19],//基礎精神力
+                "skillid"=>$partyStetas_Origine[$index][21]//スキルID
+            );
+
+            array_push($partySt, new BattleActor($party_csvData[$index]));
+        }
+    }
+
+    return $partySt;
+}
+
 //初期化
-$partyStetas_Origine=array();//ステータスの初期値
-$partySt=array();//更新用パーティステータス
 $enemyAllStList=array();//敵ステータスの初期値
 $enemyStetasList=array();//全敵ステータス
 $enemystandSt =array();//更新用敵ステータス
-$index=0;//配置ID
 $userid = $_SESSION["userid"];//ログインユーザーID
 try{
 /*----------------------------------初期値セット-----------------------------------------------*/
-//パーティのキャラIDを読み込む
- //SQL接続-----------------------------------------------------------------
- $sql_list=new PDO("mysql:host=$SERV;dbname=$GAME_DBNAME",$USER,$PASSWORD);
- $sql_list->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY,true);
- $sql_list-> setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
- //----------------------------------------------------------------------
+//SQL接続-----------------------------------------------------------------
+$sql_list=new PDO("mysql:host=$SERV;dbname=$GAME_DBNAME",$USER,$PASSWORD);
+$sql_list->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY,true);
+$sql_list-> setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+//----------------------------------------------------------------------
 $user_party_table = $sql_list->query("SELECT * FROM {$userpartytable} WHERE UserID='{$userid}'");
 $user_party_table=$user_party_table->fetch();
 $partymember_ids=[$user_party_table[1],$user_party_table[2],$user_party_table[3],$user_party_table[4]];
-
-$party_csvData=array();
-
-for($index=0;$index<4;$index++){
-    $partyid= (int)$partymember_ids[$index];
-    if($partyid >= 0){
-        //$partymember_idsをもとにデータ取得
-        array_push($partyStetas_Origine,getRecord($partyid,$csvpath));//キャラデータの初期値取得(マスターデータ)
-
-        //同時に更新用ステータス連想配列格納
-        $party_csvData[$index]=array(
-            "name"=>$partyStetas_Origine[$index][2], //表示キャラ名
-            "id"=>$partyid,//キャラクターID
-            "imgid"=>$partyStetas_Origine[$index][1],//画像の通し番号
-            "type"=>$partyStetas_Origine[$index][13],//バトルタイプ
-            "dravegage"=>0,//奥義ゲージ(%)
-            "HP"=>$partyStetas_Origine[$index][15],//基礎体力
-            "pow"=>$partyStetas_Origine[$index][16],//基礎攻撃力
-            "def"=>$partyStetas_Origine[$index][17],//基礎防御力
-            "magicpow"=>$partyStetas_Origine[$index][18],//基礎魔力
-            "mental"=>$partyStetas_Origine[$index][19],//基礎精神力
-            "skillid"=>$partyStetas_Origine[$index][21]//スキルID
-        );
-
-        array_push($partySt, new BattleActor($party_csvData[$index]));
-    }
-}
 
 //テストデータ
 $enemyAllStList =array(
@@ -173,7 +178,7 @@ for($index =0;$index<4;$index++){
 /*-------------------------------------------------------------------------------------------*/
 //初回なら値をセット
 //if(!isset($_SESSION["patySt"])){//バトル中使っていくパーティステータス
-    $_SESSION["partySt"]=$partySt;
+    $_SESSION["partySt"]=SetStetas($partymember_ids);
 //}
 
 //if(!isset($_SESSION["enemyStMst"]) && !isset($_SESSION["enemySt"])){

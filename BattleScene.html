@@ -25,12 +25,12 @@
     <div class="battlestageview">
       <div id="mainview">
         <img id ="back" src="img/battlescene/mapimgtest.jpg">
-        <div class="lernGroup">
+        <!--div class="lernGroup">
           <img class="lernline" src="img/battlescene/lern.jpg">
           <img class="lernline" src="img/battlescene/lern.jpg">
           <img class="lernline" src="img/battlescene/lern.jpg">
           <img class="lernline" src="img/battlescene/lern.jpg">
-        </div>
+        </div-->
         <canvas id="maincanvas"></canvas>
       <div id="enemyview"> 
         <div class ="enemydamage-content" id="enemyid0"></div>
@@ -45,8 +45,6 @@
           <div class="back_box" id="backbox_member1"></div>
           <div class="HP_box alive" id="HPbox_member1"></div>
           <img class="Mainframe" id="member1" src="img/battlescene/charaframe.jpg">
-          <img class="Combframe" id="member1" src="img/battlescene/combImg.jpg">
-          <div class="member_comb" id="Comb_member1">コンボ数</div>
           <div class="memberstetasview" id="member1_stetas">ステータスだよ</div>
         </div>
         <div class="partymembers-icon" id="member2-icon" value=1>
@@ -54,8 +52,6 @@
           <div class="back_box" id="backbox_member2"></div>
           <div class="HP_box alive" id="HPbox_member2"></div>
           <img class="Mainframe" id="member2" src="img/battlescene/charaframe.jpg">
-          <img class="Combframe" id="member2" src="img/battlescene/combImg.jpg">
-          <div class="member_comb" id="Comb_member2">コンボ数</div>
           <div class="memberstetasview" id="member2_stetas">ステータスだよ</div>
         </div>
         <div class="partymembers-icon" id="member3-icon" value=2>
@@ -63,8 +59,6 @@
           <div class="back_box" id="backbox_member3"></div>
           <div class="HP_box alive" id="HPbox_member3"></div>
           <img class="Mainframe" id="member3" src="img/battlescene/charaframe.jpg">
-          <img class="Combframe" id="member3" src="img/battlescene/combImg.jpg">
-          <div class="member_comb" id="Comb_member3">コンボ数</div>
           <div class="memberstetasview" id="member3_stetas">ステータスだよ</div>
         </div>
         <div class="partymembers-icon" id="member4-icon" value=3>
@@ -72,8 +66,6 @@
           <div class="back_box" id="backbox_member4"></div>
           <div class="HP_box alive" id="HPbox_member4"></div>
           <img class="Mainframe" id="member4" src="img/battlescene/charaframe.jpg">
-          <img class="Combframe" id="member4" src="img/battlescene/combImg.jpg">
-          <div class="member_comb" id="Comb_member4">コンボ数</div>
           <div class="memberstetasview" id="member4_stetas">ステータスだよ</div>    </div>
       </div>
     </div>
@@ -110,7 +102,6 @@
   </div>
 
 <div class="startscreen" onclick="playStart()"><p>タッチしてスタート</p></div>
-  <div class="Format-frame"></div>
 
   <script type="text/javascript" src="js/GameFormatInsert.js"></script>
 
@@ -135,25 +126,23 @@
     }
 
     $.ajax({
-            url:'php/battlePHP/UserBattleStetasSet.php',
-            type:"post",
-            dataType:"json",
-            success:function(data){              
-              resdata=data;
-              Init(resdata);             
-              const runningUpdate = run();
-            window.setInterval(()=>{
-              run();
-             } , 1000/60);
-            },
-            error:(function(XMLHttpRequest, textStatus, errorThrown) {
-              alert('s:error!!!');
-          　　console.log("XMLHttpRequest : " + XMLHttpRequest.status);
-          　　console.log("textStatus     : " + textStatus);
-          　　console.log("errorThrown    : " + errorThrown.message);  
-              console.log("errorThrown    : " + errorThrown.text);            
-            })
-          });
+      url:'php/battlePHP/UserBattleStetasSet.php',
+      type:"post",
+      dataType:"json"
+    }).done(function(data){              
+      resdata=data;
+      Init(resdata);             
+      const runningUpdate = run();
+      window.setInterval(()=>{
+        run();
+      } , 1000/60);
+    }).fail((function(XMLHttpRequest, textStatus, errorThrown) {
+      alert('s:error!!!');
+      console.log("XMLHttpRequest : " + XMLHttpRequest.status);
+      console.log("textStatus     : " + textStatus);
+      console.log("errorThrown    : " + errorThrown.message);  
+      console.log("errorThrown    : " + errorThrown.text);            
+    }));
   }
 
   window.onload = Startinit;
